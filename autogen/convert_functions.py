@@ -868,19 +868,19 @@ def doc_files(processed_files):
 
     s = '[\n'
     s += '$[FUNCTION_INDEX_HERE]'
-    for processed_file in processed_files:
-        if len(s) + extra_space > page_len_limit:
-        		s = s[:-1] # delete last "," from the final string
-        		s += '\n]'
-            pages[page_num] = s
-            s = '[\n'
-            page_num += 1
-            extra_space = 0
+    #for processed_file in processed_files:
+    #    if len(s) + extra_space > page_len_limit:
+    #    		s = s[:-1] # delete last "," from the final string
+    #    		s += '\n]'
+    #        pages[page_num] = s
+    #        s = '[\n'
+    #        page_num += 1
+    #        extra_space = 0
 
-        processed_file['page_num'] = page_num
+    #    processed_file['page_num'] = page_num
 
     s += '\n]'
-    pages[page_num] = s
+    #pages[page_num] = s
 
     for pnum in pages:
         buffer = pages[pnum]
