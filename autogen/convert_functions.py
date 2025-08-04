@@ -9,9 +9,9 @@ verbose = len(sys.argv) > 1 and (sys.argv[1] == "-v" or sys.argv[1] == "--verbos
 rejects = ""
 integer_types = ["u8", "u16", "u32", "u64", "s8", "s16", "s32", "s64", "int"]
 number_types = ["f32", "float", "f64", "double"]
-out_filename = 'src/pc/lua/smlua_functions_autogen.c'
-out_filename_docs = 'docs/lua/functions%s.md'
-out_filename_defs = 'autogen/lua_definitions/functions.lua'
+out_filename = 'src/pc/lua/_smlua_functions_autogen.c'
+out_filename_docs = 'autogen/converted/functions%s.json'
+out_filename_defs = 'autogen/lua_definitions/_functions.lua'
 
 in_files = [
     "src/audio/external.h",
@@ -205,611 +205,132 @@ vec3f_sound_before = """
 ###########################################################
 
 manual_index_documentation = """
-- manually written functions
-   - [define_custom_obj_fields](#define_custom_obj_fields)
-   - [network_init_object](#network_init_object)
-   - [network_send_object](#network_send_object)
-   - [network_send_to](#network_send_to)
-   - [network_send](#network_send)
-   - [get_texture_info](#get_texture_info)
-   - [djui_hud_render_texture](#djui_hud_render_texture)
-   - [djui_hud_render_texture_tile](#djui_hud_render_texture_tile)
-   - [djui_hud_render_texture_interpolated](#djui_hud_render_texture_interpolated)
-   - [djui_hud_render_texture_tile_interpolated](#djui_hud_render_texture_tile_interpolated)
-   - [texture_override_set](#texture_override_set)
-   - [texture_override_reset](#texture_override_reset)
-   - [smlua_anim_util_register_animation](#smlua_anim_util_register_animation)
-   - [level_script_parse](#level_script_parse)
-   - [log_to_console](#log_to_console)
-   - [add_scroll_target](#add_scroll_target)
-   - [collision_find_surface_on_ray](#collision_find_surface_on_ray)
-   - [cast_graph_node](#cast_graph_node)
-   - [get_uncolored_string](#get_uncolored_string)
-   - [gfx_set_command](#gfx_set_command)
-
-<br />
-
+[
+	{
+		"caption": "define_custom_obj_fields",
+		"value": "define_custom_obj_fields",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "network_init_object",
+		"value": "network_init_object",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "network_send_object",
+		"value": "network_send_object",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "network_send_to",
+		"value": "network_send_to",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "network_send",
+		"value": "network_send",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "get_texture_info",
+		"value": "get_texture_info",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "djui_hud_render_texture",
+		"value": "djui_hud_render_texture",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "djui_hud_render_texture_tile",
+		"value": "djui_hud_render_texture_tile",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "djui_hud_render_texture_interpolated",
+		"value": "djui_hud_render_texture_interpolated",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "djui_hud_render_texture_tile_interpolated",
+		"value": "djui_hud_render_texture_tile_interpolated",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "texture_override_set",
+		"value": "texture_override_set",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "texture_override_reset",
+		"value": "texture_override_reset",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "smlua_anim_util_register_animation",
+		"value": "smlua_anim_util_register_animation",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "level_script_parse",
+		"value": "level_script_parse",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "log_to_console",
+		"value": "log_to_console",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "add_scroll_target",
+		"value": "add_scroll_target",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "collision_find_surface_on_ray",
+		"value": "collision_find_surface_on_ray",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "cast_graph_node",
+		"value": "cast_graph_node",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "get_uncolored_string",
+		"value": "get_uncolored_string",
+		"meta": "function",
+		"score": 1000
+	},
+	{
+		"caption": "gfx_set_command",
+		"value": "gfx_set_command",
+		"meta": "function",
+		"score": 1000
+	},
+	
+	
+	
 """
-manual_documentation = """
----
-# manually written functions
-
-## [define_custom_obj_fields](#define_custom_obj_fields)
-
-Defines a custom set of overlapping object fields.
-
-The `fieldTable` table's keys must start with the letter `o` and the values must be either `u32`, `s32`, or `f32`.
-
-### Lua Example
-`define_custom_obj_fields({ oCustomField1 = 'u32', oCustomField2 = 's32', oCustomField3 = 'f32' })`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| fieldTable | `Lua Table` |
-
-### C Prototype
-`N/A`
-
-[:arrow_up_small:](#)
-
-## [network_init_object](#network_init_object)
-
-Enables synchronization on an object.
-
-- Setting `standardSync` to `true` will automatically synchronize the object at a rate that is determined based on player distance. The commonly used object fields will be automatically synchronized.
-- Setting `standardSync` to `false` will not automatically synchronize the object, or add commonly used object fields. The mod must manually call `network_send_object()` when fields have changed.
-
-The `fieldTable` parameter can be `nil`, or a list of object fields.
-
-### Lua Example
-`network_init_object(obj, true, { 'oCustomField1', 'oCustomField2', 'oCustomField3' })`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| object | [Object](structs.md#Object) |
-| standardSync | `bool` |
-| fieldTable | `Lua Table` |
-
-### C Prototype
-`N/A`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [network_send_object](#network_send_object)
-
-Sends a packet that synchronizes an object. This does not need to be called when `standardSync` is enabled.
-
-The `reliable` field will ensure that the packet arrives, but should be used sparingly and only when missing a packet would cause a desync.
-
-### Lua Example
-`network_send_object(obj, false)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| object | [Object](structs.md#Object) |
-| reliable | `bool` |
-
-### C Prototype
-`N/A`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [network_send_to](#network_send_to)
-
-Sends a packet to a particular player (using their local index) containing whatever data you want.
-
-`dataTable` can only contain strings, integers, numbers, booleans, and nil
-
-The `reliable` field will ensure that the packet arrives, but should be used sparingly and only when missing a packet would cause a desync.
-
-### Lua Example
-`network_send_to(localPlayerIndex, reliable, { data1 = 'hello', data2 = 10})`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| localPlayerIndex | `integer` |
-| reliable | `bool` |
-| dataTable | `table` |
-
-### C Prototype
-`N/A`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [network_send](#network_send)
-
-Sends a packet to all players containing whatever data you want.
-
-`dataTable` can only contain strings, integers, numbers, booleans, and nil
-
-The `reliable` field will ensure that the packet arrives, but should be used sparingly and only when missing a packet would cause a desync.
-
-### Lua Example
-`network_send(reliable, { data1 = 'hello', data2 = 10})`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| reliable | `bool` |
-| dataTable | `table` |
-
-### C Prototype
-`N/A`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [get_texture_info](#get_texture_info)
-
-Retrieves a texture by name.
-
-### Lua Example
-`get_texture_info(textureName)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| textureName | `string` |
-
-### Returns
-- [TextureInfo](structs.md#TextureInfo)
-
-### C Prototype
-`N/A`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [djui_hud_render_texture](#djui_hud_render_texture)
-
-Renders a texture to the screen.
-
-### Lua Example
-`djui_hud_render_texture(texInfo, 0, 0, 1, 1)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| texInfo | [TextureInfo](structs.md#TextureInfo) |
-| x | `number` |
-| y | `number` |
-| scaleW | `number` |
-| scaleH | `number` |
-
-### Returns
-- None
-
-### C Prototype
-`void djui_hud_render_texture(struct TextureInfo* texInfo, f32 x, f32 y, f32 scaleW, f32 scaleH);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [djui_hud_render_texture_tile](#djui_hud_render_texture_tile)
-
-Renders a tile of a texture to the screen.
-
-### Lua Example
-`djui_hud_render_texture_tile(texInfo, 0, 0, 1, 1, 0, 0, 16, 16)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| texInfo | [TextureInfo](structs.md#TextureInfo) |
-| x | `number` |
-| y | `number` |
-| scaleW | `number` |
-| scaleH | `number` |
-| tileX | `number` |
-| tileY | `number` |
-| tileW | `number` |
-| tileH | `number` |
-
-### Returns
-- None
-
-### C Prototype
-`void djui_hud_render_texture_tile(struct TextureInfo* texInfo, f32 x, f32 y, f32 scaleW, f32 scaleH, u32 tileX, u32 tileY, u32 tileW, u32 tileH);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [djui_hud_render_texture_tile_interpolated](#djui_hud_render_texture_tile_interpolated)
-
-Renders an interpolated tile of a texture to the screen.
-
-### Lua Example
-`djui_hud_render_texture_tile_interpolated(texInfo, prevX, prevY, prevScaleW, prevScaleH, 0, 0, 1, 1, 0, 0, 16, 16)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| texInfo | [TextureInfo](structs.md#TextureInfo) |
-| prevX | `number` |
-| prevY | `number` |
-| prevScaleW | `number` |
-| prevScaleH | `number` |
-| x | `number` |
-| y | `number` |
-| scaleW | `number` |
-| scaleH | `number` |
-| tileX | `number` |
-| tileY | `number` |
-| tileW | `number` |
-| tileH | `number` |
-
-### Returns
-- None
-
-### C Prototype
-`void djui_hud_render_texture_tile_interpolated(struct TextureInfo* texInfo, f32 prevX, f32 prevY, f32 prevScaleW, f32 prevScaleH, f32 x, f32 y, f32 scaleW, f32 scaleH, u32 tileX, u32 tileY, u32 tileW, u32 tileH);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [texture_override_reset](#texture_override_reset)
-
-Resets an overridden texture.
-
-### Lua Example
-`texture_override_reset("outside_09004000")`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| textureName | `string` |
-
-### Returns
-- None
-
-### C Prototype
-`void dynos_texture_override_reset(const char* textureName);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [texture_override_set](#texture_override_set)
-
-Overrides a texture with a custom `TextureInfo`.
-
-### Lua Example
-`texture_override_set("outside_09004000", overrideTexInfo)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| textureName | `string` |
-| overrideTexInfo | [TextureInfo](structs.md#TextureInfo) |
-
-### Returns
-- None
-
-### C Prototype
-`void dynos_texture_override_set(const char* textureName, struct TextureInfo* overrideTexInfo);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [smlua_anim_util_register_animation](#smlua_anim_util_register_animation)
-
-Register a new Lua animation.
-
-### Lua Example
-`smlua_anim_util_register_animation("apparition_idle", 0, 189, 0, 0, 0x5A, values, index)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| name | `string` |
-| flags | `integer` |
-| animYTransDivisor | `integer` |
-| startFrame | `integer` |
-| loopStart | `integer` |
-| loopEnd | `integer` |
-| values | `table` |
-| index | `table` |
-
-### Returns
-- None
-
-### C Prototype
-`void smlua_anim_util_register_animation(const char *name, s16 flags, s16 animYTransDivisor, s16 startFrame, s16 loopStart, s16 loopEnd, s16 *values, u32 valuesLength, u16 *index, u32 indexLength);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [level_script_parse](#level_script_parse)
-
-### Lua Example
-`level_script_parse(LEVEL_BOB, func)`
-
-Parses a level script and passes area index, behavior data, macro behavior IDs and macro behavior arguments to a function.
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| levelNum | `LevelNum` |
-| func | `function` |
-
-### Returns
-- None
-
-### C Prototype
-`void smlua_func_level_script_parse(lua_State* L);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [log_to_console](#log_to_console)
-
-Logs a message to the in-game console.
-
-### Lua Example
-`log_to_console("sm64coopdx FTW", CONSOLE_MESSAGE_INFO)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| message | `string` |
-| level (optional) | `ConsoleMessageLevel` |
-
-### Returns
-- None
-
-### C Prototype
-`void log_to_console(const char* message, enum ConsoleMessageLevel level);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [add_scroll_target](#add_scroll_target)
-
-Registers a vertex buffer to be used for a scrolling texture. Should be used with `RM_Scroll_Texture` or `editor_Scroll_Texture`
-
-### Lua Example
-`add_scroll_target(0, "arena_rainbow_dl_StarRoad_mesh_layer_5_vtx_0")`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| index | `integer` |
-| name | `string` |
-
-### Returns
-- None
-
-### C Prototype
-`void dynos_add_scroll_target(u32 index, const char *name, u32 offset, u32 size);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [collision_find_surface_on_ray](#collision_find_surface_on_ray)
-
-Shoots a raycast from `startX`, `startY`, and `startZ` in the direction of `dirX`, `dirY`, and `dirZ`.
-
-### Lua Example
-`collision_find_surface_on_ray(0, 0, 0, 50, 100, 50)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| startX | `number` |
-| startY | `number` |
-| startZ | `number` |
-| dirX | `number` |
-| dirY | `number` |
-| dirZ | `number` |
-| precision (optional) | `number` |
-
-### Returns
-- [RayIntersectionInfo](structs.md#RayIntersectionInfo)
-
-### C Prototype
-`struct RayIntersectionInfo* collision_find_surface_on_ray(f32 startX, f32 startY, f32 startZ, f32 dirX, f32 dirY, f32 dirZ, f32 precision);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [set_exclamation_box_contents](#set_exclamation_box_contents)
-
-Sets the contents that the exclamation box spawns. A single content has 5 keys: `id`, `unused`, `firstByte`, `model`, and `behavior`.
-* `id`: Required; what value the box's oBehParams2ndByte needs to be to spawn this object.
-* `unused`: Optional; unused by vanilla.
-* `firstByte`: Optional; Overrides the 1st byte given to the spawned object.
-* `model`: Required; The model that the object will spawn with. Uses `ModelExtendedId`.
-* `behavior`: Required; The behavior ID that the object will spawn with. Uses `BehaviorId`.
-
-### Lua Example
-```lua
-set_exclamation_box_contents({
-   {id = 0, unused = 0, firstByte = 0, model = E_MODEL_GOOMBA, behavior = id_bhvGoomba}, -- Uses both optional fields
-   {id = 1, unused = 0, model = E_MODEL_KOOPA_WITH_SHELL, behavior = id_bhvKoopa}, -- Only uses `unused` optional field
-   {id = 2, firsteByte = model = E_MODEL_BLACK_BOBOMB, behavior = id_bhvBobomb}, -- Only uses `firstByte` optional field
-   {id = 3, model = E_MODEL_BOO, behavior = id_bhvBoo}, -- Uses no optional fields
-})
-```
-
-### Parameters
-There exists only 1 parameter to this function which is the main table. However, each subtable has 5 different keys that could be accessed.
-| Field | Type |
-| ----- | ---- |
-| id | `integer` |
-| unused (Optional) | `integer` |
-| firstByte (Optional) | `integer` |
-| model | [ModelExtendedId](#ModelExtendedId) |
-| behavior | [BehaviorId](#BehaviorId) |
-
-### Returns
-- None
-
-### C Prototype
-N/A
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [get_exclamation_box_contents](#get_exclamation_box_contents)
-
-Gets the contents that the exclamation box spawns. A single content has 5 keys: `id`, `unused`, `firstByte`, `model`, and `behavior`.
-* `id`: Required; what value the box's oBehParams2ndByte needs to be to spawn this object.
-* `unused`: Optional; unused by vanilla.
-* `firstByte`: Optional; Overrides the 1st byte given to the spawned object.
-* `model`: Required; The model that the object will spawn with. Uses `ModelExtendedId`.
-* `behavior`: Required; The behavior ID that the object will spawn with. Uses `BehaviorId`.
-
-### Lua Example
-```lua
-local contents = get_exclamation_box_contents()
-for index, content in pairs(contents) do -- Enter the main table
-   djui_chat_message_create("Table index " .. index) -- Print the current table index
-      for key, value in pairs(content) do
-         djui_chat_message_create(key .. ": " .. value) -- Print a key-value pair within this subtable
-      end
-   djui_chat_message_create("---------------------------------") -- Separator
-end
-```
-
-### Parameters
-- N/A
-
-### Returns
-The function itself does not return every key/value pair. Instead it returns the main table which holds all the subtables that hold each key/value pair.
-| Field | Type |
-| ----- | ---- |
-| id | `integer` |
-| unused (Optional) | `integer` |
-| firstByte (Optional) | `integer` |
-| model | [ModelExtendedId](#ModelExtendedId) |
-| behavior | [BehaviorId](#BehaviorId) |
-
-### C Prototype
-N/A
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [cast_graph_node](#cast_graph_node)
-
-Returns the specific GraphNode(...) the node is part of. Basically the reverse of `.node` or `.fnNode`.
-
-### Lua Example
-```lua
-local marioGfx = gMarioStates[0].marioObj.header.gfx -- GraphNodeObject
-local node = marioGfx.node -- GraphNode
-
-print(marioGfx == cast_graph_node(node)) -- true
-```
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| node  | [GraphNode](structs.md#GraphNode) |
-
-### Returns
-- GraphNode(...)
-
-### C Prototype
-N/A
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [get_uncolored_string](#get_uncolored_string)
-
-Removes color codes from a string.
-
-### Lua Example
-```lua
-print(get_uncolored_string("\\#210059\\Colored \\#FF086F\\String")) -- "Colored String"
-```
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| str   | 'string' |
-
-### Returns
-- `string`
-
-### C Prototype
-N/A
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [gfx_set_command](#gfx_set_command)
-
-Sets a display list command on the display list given.
-
-If `command` includes parameter specifiers (subsequences beginning with `%`), the additional arguments following `command` are converted and inserted in `command` replacing their respective specifiers.
-
-The number of provided parameters must be equal to the number of specifiers in `command`, and the order of parameters must be the same as the specifiers.
-
-The following specifiers are allowed:
-- `%i` for an `integer` parameter
-- `%s` for a `string` parameter
-- `%v` for a `Vtx` parameter
-- `%t` for a `Texture` parameter
-- `%g` for a `Gfx` parameter
-
-### Lua Examples
-
-Plain string:
-```lua
-gfx_set_command(gfx, "gsDPSetEnvColor(0x00, 0xFF, 0x00, 0xFF)")
-```
-
-With parameter specifiers:
-```lua
-r, g, b, a = 0x00, 0xFF, 0x00, 0xFF
-gfx_set_command(gfx, "gsDPSetEnvColor(%i, %i, %i, %i)", r, g, b, a)
-```
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| gfx   | [Gfx](structs.md#Gfx) |
-| command | `string` |
-| parameters... | any of `integer`, `string`, `Gfx`, `Texture`, `Vtx` |
-
-### Returns
-- None
-
-### C Prototype
-N/A
-
-[:arrow_up_small:](#)
-
-<br />
-
-"""
+manual_documentation = """"""
 
 ############################################################################
 
@@ -1219,25 +740,21 @@ def doc_should_document(fname, identifier):
 
 def doc_page_link(page_num):
     if page_num == 1:
-        return 'functions.md'
+        return 'functions.json'
     else:
-        return 'functions-%d.md' % page_num
+        return 'functions-%d.json' % page_num
 
 def doc_function_index(processed_files):
-    s = '# Supported Functions\n'
-    s += manual_index_documentation
+    s = manual_index_documentation
     count = 0
     for processed_file in processed_files:
-        page_num = processed_file['page_num']
-        s += '- %s\n' % processed_file['filename']
         for function in processed_file['functions']:
             if not function['implemented']:
                 continue
             if not doc_should_document(processed_file['filename'], function['identifier']):
                 continue
 
-            s += '   - [%s](%s#%s)\n' % (function['identifier'], doc_page_link(page_num), function['identifier'])
-        s += '\n<br />\n\n'
+            s += functions_json_base % (function['identifier'])
 
     return s
 
@@ -1342,27 +859,17 @@ def doc_files(processed_files):
     page_len_limit = 150000
     extra_space = 25000
 
-    s = '## [:rewind: Lua Reference](lua.md)\n\n'
-    s += '---\n\n$[FUNCTION_NAV_HERE]\n\n---\n\n'
     s += '$[FUNCTION_INDEX_HERE]'
-    s += manual_documentation
     for processed_file in processed_files:
-        s_file  = '\n---'
-        s_file += '\n# functions from %s\n\n<br />\n\n' % processed_file['filename']
-        s_file += doc_functions(processed_file['filename'], processed_file['functions'])
-
+        
         if len(s) + len(s_file) + extra_space > page_len_limit:
-            s += '---\n\n$[FUNCTION_NAV_HERE]\n\n'
             pages[page_num] = s
-            s = '## [:rewind: Lua Functions](functions.md)\n\n'
-            s += '---\n\n$[FUNCTION_NAV_HERE]\n\n'
             page_num += 1
             extra_space = 0
 
         s += s_file
         processed_file['page_num'] = page_num
 
-    s += '\n---\n\n$[FUNCTION_NAV_HERE]\n\n'
     pages[page_num] = s
 
     for pnum in pages:
