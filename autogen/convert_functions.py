@@ -870,7 +870,7 @@ def doc_files(processed_files):
     s += '$[FUNCTION_INDEX_HERE]'
     for processed_file in processed_files:
         
-        if len(s) + len(s_file) + extra_space > page_len_limit:
+        if len(s) + extra_space > page_len_limit:
         		s = s[:-1] # delete last "," from the final string
         		s += """
         		]
@@ -881,7 +881,6 @@ def doc_files(processed_files):
             page_num += 1
             extra_space = 0
 
-        s += s_file
         processed_file['page_num'] = page_num
 
     pages[page_num] = s
@@ -910,7 +909,7 @@ def doc_files(processed_files):
         if (pnum + 1) in pages:
             function_nav += ' | [next >](%s)' % doc_page_link(pnum + 1)
 
-        buffer = buffer.replace('$[FUNCTION_NAV_HERE', function_nav)
+        #buffer = buffer.replace('$[FUNCTION_NAV_HERE]', function_nav)
 
         with open(get_path(out_filename_docs % page_name), 'w', encoding='utf-8', newline='\n') as out:
             out.write(buffer)
