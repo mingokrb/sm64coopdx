@@ -18,11 +18,7 @@ jobs:
                 sudo apt update
                 sudo apt install -y python3 zip
 
-            # is this needed idk
-            - name: Extract stuff
-              run: python3 ./autogen/extract_functions.py
-
-            - name: Convert stuff
+            - name: Autogen
               run: python3 ./autogen/convert_functions.py
 
             - name: Zip files
