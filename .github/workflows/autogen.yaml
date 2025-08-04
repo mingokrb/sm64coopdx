@@ -6,7 +6,7 @@ on:
     branches: [ android ]
 
 jobs:
-    autogen:
+    lua-autogen:
         if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[gen]') }}
         runs-on: ubuntu-22.04
         steps:
@@ -16,18 +16,13 @@ jobs:
             - name: Install dependencies
               run: |
                 sudo apt update
-                sudo apt install -y python3 zip
+                sudo apt install -y python3
 
             - name: Run autogen
               run: ./autogen/autogen.sh
-
-            - name: Zip files
-              run: |
-                cd ./autogen/converted
-                zip -r autogen_converted.zip *.json
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
               with:
                 name: autogen-files
-                path: ./autogen/converted/autogen_converted.zip
+                path: ./autogen/converted/*.json
