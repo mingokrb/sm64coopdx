@@ -6,7 +6,7 @@ import sys
 in_filename = 'autogen/lua_constants/built-in.lua'
 deprecated_filename = 'autogen/lua_constants/deprecated.lua'
 out_filename = 'src/pc/lua/smlua_constants_autogen.c'
-out_filename_docs = 'docs/lua/constants.md'
+out_filename_docs = 'autogen/converted/constants.json'
 out_filename_defs = 'autogen/lua_definitions/constants.lua'
 
 in_files = [
@@ -132,6 +132,15 @@ defined_values = {
     'VERSION_SH': False,
     'F3DEX_GBI_2': True,
 }
+
+# its set as "keyword" here just for it to have an icon in Acode
+json_constants_base = """	{
+		"caption": "%s",
+		"value": "%s",
+		"meta": "keyword",
+		"score": 1000
+	},
+"""
 
 ############################################################################
 
@@ -415,13 +424,13 @@ def doc_should_document(fname, identifier):
     return True
 
 def doc_constant_index(processed_files):
-    s = '# Supported Constants\n'
+    s = ''
     for processed_file in processed_files:
-        s += '- [%s](#%s)\n' % (processed_file['filename'], processed_file['filename'].replace('.', ''))
+        #s += '- [%s](#%s)\n' % (processed_file['filename'], processed_file['filename'].replace('.', ''))
         constants = [x for x in processed_file['constants'] if 'identifier' in x]
-        for c in constants:
-            s += '    - [enum %s](#enum-%s)\n' % (c['identifier'], c['identifier'])
-    s += '\n<br />\n\n'
+        #for c in constants:
+            #s += '    - [enum %s](#enum-%s)\n' % (c['identifier'], c['identifier'])
+    #s += '\n<br />\n\n'
     return s
 
 def doc_constant(fname, processed_constant):
@@ -434,12 +443,12 @@ def doc_constant(fname, processed_constant):
         if len(constants) == 0:
             return ''
 
-        enum = 'enum ' + processed_constant['identifier']
-        s += '\n### [%s](#%s)\n' % (enum, processed_constant['identifier'])
-        s += '| Identifier | Value |\n'
-        s += '| :--------- | :---- |\n'
+        #enum = 'enum ' + processed_constant['identifier']
+        #s += '\n### [%s](#%s)\n' % (enum, processed_constant['identifier'])
+        #s += '| Identifier | Value |\n'
+        #s += '| :--------- | :---- |\n'
         for c in constants:
-            s += '| %s | %s |\n' % (c[0], c[1])
+            s += json_constants_base % (c[0] + ':' + c[1], c[0])
         return s
 
     for c in [processed_constant]:
@@ -447,26 +456,26 @@ def doc_constant(fname, processed_constant):
             continue
         if not doc_should_document(fname, c[0]):
             continue
-        s += '- %s\n' % (c[0])
+        s += json_constants_base % (c[0], c[0])
 
     return s
 
 def doc_file(processed_file):
-    s = '## [%s](#%s)\n' % (processed_file['filename'], processed_file['filename'])
+    #s = '## [%s](#%s)\n' % (processed_file['filename'], processed_file['filename'])
+    s = ''
     constants = processed_file['constants']
     for c in constants:
         s += doc_constant(processed_file['filename'], c)
 
-    s += '\n[:arrow_up_small:](#)\n'
-    s += '\n<br />\n\n'
     return s
 
 def doc_files(processed_files):
-    s = '## [:rewind: Lua Reference](lua.md)\n\n'
+    s = '[\n'
     s += doc_constant_index(processed_files)
     for file in processed_files:
         s += doc_file(file)
-
+    s = s[:-1]
+    s += '\n]'
     return s
 
 ############################################################################
