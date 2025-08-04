@@ -1,9 +1,13 @@
 name: Autogen Lua docs json
 
-on: workflow_dispatch
+on:
+	workflow_dispatch:
+	push:
+		branches: [ android-dev ]
 
 jobs:
-    build-linux:
+    autogen:
+        if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[gen]') }}
         runs-on: ubuntu-22.04
         steps:
             - name: Checkout repository
@@ -15,14 +19,14 @@ jobs:
                 sudo apt install -y python3 zip
 
             - name: Autogen
-              run: |
-                python3 ./autogen/convert_constants.py
-                python3 ./autogen/convert_functions.py
+              run: python3 ./autogen/convert_functions.py
+                #python3 ./autogen/convert_constants.py
+                #python3 ./autogen/convert_functions.py
 
             - name: Zip files
               run: |
                 cd ./autogen/converted
-                zip -r autogen_converted.zip .
+                zip autogen_converted.zip *.json
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
