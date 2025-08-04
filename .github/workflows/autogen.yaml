@@ -18,13 +18,13 @@ jobs:
                 sudo apt update
                 sudo apt install -y python3 zip
 
-            - name: Autogen
-              run: python3 ./autogen/convert_functions.py
+            - name: Run autogen
+              run: ./autogen/autogen.sh
 
             - name: Zip files
               run: |
                 cd ./autogen/converted
-                zip autogen_converted.zip *.json
+                zip -r autogen_converted.zip *.json
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
