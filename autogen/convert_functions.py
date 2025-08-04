@@ -870,7 +870,6 @@ def doc_files(processed_files):
     s += '$[FUNCTION_INDEX_HERE]'
     #for processed_file in processed_files:
     #    if len(s) + extra_space > page_len_limit:
-    #    		s = s[:-1] # delete last "," from the final string
     #    		s += '\n]'
     #        pages[page_num] = s
     #        s = '[\n'
@@ -879,6 +878,7 @@ def doc_files(processed_files):
 
     #    processed_file['page_num'] = page_num
 
+    s = s[:-1] # delete last ","
     s += '\n]'
     #pages[page_num] = s
 
