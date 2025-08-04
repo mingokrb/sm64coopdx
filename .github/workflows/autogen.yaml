@@ -3,7 +3,7 @@ name: Autogen Lua docs json
 on:
   workflow_dispatch:
   push:
-    branches: [ android-dev ]
+    branches: [ android ]
 
 jobs:
     autogen:
