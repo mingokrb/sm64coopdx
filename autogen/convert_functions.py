@@ -332,6 +332,14 @@ manual_index_documentation = """
 """
 manual_documentation = """"""
 
+func_json_base = """
+	{
+		"caption": "%s",
+		"value": "%s",
+		"meta": "function",
+		"score": 1000
+	},"""
+
 ############################################################################
 
 total_functions = 0
@@ -754,7 +762,7 @@ def doc_function_index(processed_files):
             if not doc_should_document(processed_file['filename'], function['identifier']):
                 continue
 
-            s += functions_json_base % (function['identifier'])
+            s += func_json_base % (function['identifier'])
 
     return s
 
@@ -863,7 +871,13 @@ def doc_files(processed_files):
     for processed_file in processed_files:
         
         if len(s) + len(s_file) + extra_space > page_len_limit:
+        		s = s[:-1] # delete last "," from the final string
+        		s += """
+        		]
+        		"""
             pages[page_num] = s
+            s = """[
+            """
             page_num += 1
             extra_space = 0
 
