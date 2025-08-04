@@ -205,7 +205,6 @@ vec3f_sound_before = """
 ###########################################################
 
 manual_index_documentation = """
-[
 	{
 		"caption": "define_custom_obj_fields",
 		"value": "define_custom_obj_fields",
@@ -867,11 +866,21 @@ def doc_files(processed_files):
     page_len_limit = 150000
     extra_space = 25000
 
+    s = '[\n'
+    s += '$[FUNCTION_INDEX_HERE]'
     for processed_file in processed_files:
-        s = s[:-1] # delete last "," from the final string
-        s += """
-        ]
-        """
+        if len(s) + extra_space > page_len_limit:
+        		s = s[:-1] # delete last "," from the final string
+        		s += '\n]'
+            pages[page_num] = s
+            s = '[\n'
+            page_num += 1
+            extra_space = 0
+
+        processed_file['page_num'] = page_num
+
+    s += '\n]'
+    pages[page_num] = s
 
     for pnum in pages:
         buffer = pages[pnum]
