@@ -398,8 +398,7 @@ json_functions_base = """	{
 		"value": "%s",
 		"meta": "function",
 		"score": 1000
-	},
-"""
+	},"""
 
 ############################################################################
 
@@ -932,7 +931,7 @@ def doc_files(processed_files):
     extra_space = 0
 
     s = '[\n'
-    s += '$[FUNCTION_INDEX_HERE]'
+    s += '$[FUNCTION_INDEX_HERE]\n'
     for processed_file in processed_files:
         s_file  = '\n---'
         s_file += '\n# functions from %s\n\n<br />\n\n' % processed_file['filename']
@@ -940,8 +939,6 @@ def doc_files(processed_files):
 
         processed_file['page_num'] = page_num
 
-    #s = s[:-1]
-    s += ']'
     pages[page_num] = s
 
     for pnum in pages:
@@ -953,22 +950,8 @@ def doc_files(processed_files):
         else:
             page_name = '-%d' % pnum
 
-        # build up nav
-        function_nav = ''
-        if (pnum - 1) in pages:
-            function_nav += '[< prev](%s) | ' % doc_page_link(pnum - 1)
-        for pnum_nav in pages:
-            if pnum_nav == pnum:
-                function_nav += '%d' % pnum_nav
-            else:
-                function_nav += '[%d](%s)' % (pnum_nav, doc_page_link(pnum_nav))
-
-            if (pnum_nav + 1) in pages:
-                function_nav += ' | '
-        if (pnum + 1) in pages:
-            function_nav += ' | [next >](%s)' % doc_page_link(pnum + 1)
-
-        #buffer = buffer.replace('$[FUNCTION_NAV_HERE', function_nav)
+        s = s[:-1] # remove last ','
+        s += '\n]'
 
         with open(get_path(out_filename_docs % page_name), 'w', encoding='utf-8', newline='\n') as out:
             out.write(buffer)
