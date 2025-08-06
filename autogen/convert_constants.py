@@ -473,7 +473,7 @@ def doc_files(processed_files):
     s += doc_constant_index(processed_files)
     for file in processed_files:
         s += doc_file(file)
-    s = s[:-1]
+    s = s[:-2] # remove last ','
     s += '\n]'
     return s
 
