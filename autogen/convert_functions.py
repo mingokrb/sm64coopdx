@@ -951,8 +951,8 @@ def doc_files(processed_files):
         else:
             page_name = '-%d' % pnum
 
-        s = s[:-2] # remove last ','
-        s += '\n]'
+        buffer = buffer[:-2] # remove last ','
+        buffer += '\n]'
 
         with open(get_path(out_filename_docs % page_name), 'w', encoding='utf-8', newline='\n') as out:
             out.write(buffer)
