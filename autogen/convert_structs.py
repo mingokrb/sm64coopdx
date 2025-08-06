@@ -171,6 +171,126 @@ reversed_override_types = {v: k for k, v in override_types.items()}
 total_structs = 0
 total_fields = 0
 
+
+
+manually_documented_globals = """	{
+		"caption": "gMarioStates[index]",
+		"value": "gMarioStates[0]",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gNetworkPlayers[index]",
+		"value": "gNetworkPlayers[0]",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gActiveMods[index]",
+		"value": "gActiveMods[0]",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gCharacters[index]",
+		"value": "gCharacters[0]",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gControllers[index]",
+		"value": "gControllers[0]",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gMatStack[index]",
+		"value": "gMatStack[0]",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gMatStackPrev[index]",
+		"value": "gMatStackPrev[0]",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gTextures",
+		"value": "gTextures",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gObjectAnimations",
+		"value": "gObjectAnimations",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gGlobalObjectCollisionData",
+		"value": "gGlobalObjectCollisionData",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gLakituState",
+		"value": "gLakituState",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gServerSettings",
+		"value": "gServerSettings",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gNametagsSettings",
+		"value": "gNametagsSettings",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gLevelValues",
+		"value": "gLevelValues",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gBehaviorValues",
+		"value": "gBehaviorValues",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gPaintingValues",
+		"value": "gPaintingValues",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gFirstPersonCamera",
+		"value": "gFirstPersonCamera",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gGlobalSyncTable",
+		"value": "gGlobalSyncTable",
+		"meta": "global",
+		"score": 1000
+	},
+	{
+		"caption": "gPlayerSyncTable",
+		"value": "gPlayerSyncTable",
+		"meta": "global",
+		"score": 1000
+	},
+
+
+"""
+
 json_structs_base = """	{
 		"caption": "%s",
 		"value": "%s",
@@ -704,10 +824,12 @@ def doc_structs(structs):
     structs = sorted(structs, key=lambda d: d['identifier'])
 
     s = '[\n'
+    s += manually_documented_globals
     for struct in structs:
         if struct['identifier'] in exclude_structs:
             continue
         s += doc_struct(struct)
+    s = s[:-2] # remove last ','
     s += '\n]'
 
     with open(get_path(out_filename_docs), 'w', encoding='utf-8', newline='\n') as out:
