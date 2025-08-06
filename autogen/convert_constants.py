@@ -133,11 +133,10 @@ defined_values = {
     'F3DEX_GBI_2': True,
 }
 
-# its set as "keyword" here just for it to have an icon in Acode
 json_constants_base = """	{
 		"caption": "%s",
 		"value": "%s",
-		"meta": "keyword",
+		"meta": "constant",
 		"score": 1000
 	},
 """
