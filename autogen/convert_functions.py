@@ -398,7 +398,8 @@ json_functions_base = """	{
 		"value": "%s",
 		"meta": "function",
 		"score": 1000
-	},"""
+	},
+"""
 
 ############################################################################
 
@@ -931,7 +932,7 @@ def doc_files(processed_files):
     extra_space = 0
 
     s = '[\n'
-    s += '$[FUNCTION_INDEX_HERE]\n'
+    s += '$[FUNCTION_INDEX_HERE]'
     for processed_file in processed_files:
         s_file  = '\n---'
         s_file += '\n# functions from %s\n\n<br />\n\n' % processed_file['filename']
@@ -950,7 +951,7 @@ def doc_files(processed_files):
         else:
             page_name = '-%d' % pnum
 
-        s = s[:-1] # remove last ','
+        s = s[:-2] # remove last ','
         s += '\n]'
 
         with open(get_path(out_filename_docs % page_name), 'w', encoding='utf-8', newline='\n') as out:
