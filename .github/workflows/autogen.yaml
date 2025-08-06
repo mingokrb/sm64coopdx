@@ -19,7 +19,9 @@ jobs:
                 sudo apt install -y python3
 
             - name: Run autogen
-              run: ./autogen/autogen.sh
+              run: |
+                mkdir autogen/converted
+                ./autogen/autogen.sh
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
