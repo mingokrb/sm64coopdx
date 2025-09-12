@@ -99,8 +99,14 @@ static bool mod_fs_get_modpath(const char *modPath, char *dest) {
     } else {
         return false;
     }
-    char *ext = strstr(dest, ".lua");
-    if (ext) *ext = 0;
+    const char *exts[] = { ".lua", ".pluto" };
+    for (int i = 0; i < 2; i++) {
+        char *ext = strstr(dest, exts[i]);
+        if (ext) {
+            *ext = 0;
+            break;
+        }
+    }
     return true;
 }
 
