@@ -23,7 +23,7 @@ size_t mod_get_lua_size(struct Mod* mod) {
 
     for (int i = 0; i < mod->fileCount; i++) {
         struct ModFile* file = &mod->files[i];
-        if (!(str_ends_with(file->relativePath, ".lua") || str_ends_with(file->relativePath, ".luac"))) { continue; }
+        if (!(str_ends_with(file->relativePath, ".lua") || str_ends_with(file->relativePath, ".luac") || str_ends_with(file->relativePath, ".pluto") || str_ends_with(file->relativePath, ".plutoc"))) { continue; }
         size += file->size;
     }
 
@@ -356,7 +356,7 @@ static bool mod_load_files(struct Mod* mod, char* fullPath) {
 
     // deal with mod directory
     {
-        const char* fileTypes[] = { ".lua", ".luac", NULL };
+        const char* fileTypes[] = { ".lua", ".luac", ".pluto", ".plutoc", NULL };
         if (!mod_load_files_dir(mod, fullPath, "", fileTypes, true)) { return false; }
     }
 
@@ -420,7 +420,7 @@ static void mod_extract_fields(struct Mod* mod) {
     if (mod->isDirectory) {
         for (int i = 0; i < mod->fileCount; i++) {
             struct ModFile* file = &mod->files[i];
-            if (!strcmp(file->relativePath, "main.lua")) {
+            if (!(strcmp(file->relativePath, "main.lua") || strcmp(file->relativePath, "main.pluto"))) {
                 relativePath = file->relativePath;
             }
         }
@@ -555,11 +555,11 @@ bool mod_load(struct Mods* mods, char* basePath, char* modName) {
     bool isDirectory = fs_sys_dir_exists(fullPath);
 
     // make sure mod is valid
-    if (str_ends_with(modName, ".lua")) {
+    if (str_ends_with(modName, ".lua") || str_ends_with(modName, ".pluto")) {
         valid = true;
     } else if (fs_sys_dir_exists(fullPath)) {
         char tmpPath[SYS_MAX_PATH] = { 0 };
-        if (!concat_path(tmpPath, fullPath, "main.lua")) {
+        if (!concat_path(tmpPath, fullPath, "main.lua") && !concat_path(tmpPath, fullPath, "main.pluto")) {
             LOG_ERROR("Failed to concat path '%s' + '%s'", fullPath, "main.lua");
             return true;
         }

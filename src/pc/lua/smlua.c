@@ -368,8 +368,8 @@ void smlua_init(void) {
         gPcDebug.lastModRun = gLuaActiveMod;
         for (int j = 0; j < mod->fileCount; j++) {
             struct ModFile* file = &mod->files[j];
-            // skip loading non-lua files
-            if (!(str_ends_with(file->relativePath, ".lua") || str_ends_with(file->relativePath, ".luac"))) {
+            // skip loading non-lua and non-pluto files
+            if (!(str_ends_with(file->relativePath, ".lua") || str_ends_with(file->relativePath, ".luac") || str_ends_with(file->relativePath, ".pluto") || str_ends_with(file->relativePath, ".plutoc"))) {
                 continue;
             }
 
