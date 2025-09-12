@@ -943,7 +943,7 @@ endif
 # Pluto
 ifeq ($(WINDOWS_BUILD),1)
   ifeq ($(TARGET_BITS), 32)
-    LDFLAGS += -Llib/lua/win32 -l:liblua53.a
+    LDFLAGS += -Llib/lua/win32 -l:libplutostatic.a
   else
     LDFLAGS += -Llib/lua/win64 -l:libplutostatic.a
   endif
@@ -957,7 +957,7 @@ else ifeq ($(TARGET_RPI),1)
 	ifneq (,$(findstring aarch64,$(machine)))
     LDFLAGS += -Llib/lua/linux -l:libplutostatic-arm64.a
   else
-    LDFLAGS += -Llib/lua/linux -l:liblua53-arm.a
+    LDFLAGS += -Llib/lua/linux -l:libplutostatic-arm.a
   endif
 else ifeq ($(TARGET_RK3588),1)
   LDFLAGS += -Llib/lua/linux -l:libplutostatic-arm64.a
