@@ -8,7 +8,7 @@
 
 #include <stdarg.h>
 #include <stddef.h>
-#ifdef PLUTO_COOP_CPP
+#ifndef PLUTO_COOP
 #include <string>
 #include <string_view>
 #endif
@@ -175,7 +175,7 @@ LUA_API int(lua_isnumber)(lua_State *L, int idx);
 LUA_API int(lua_isstring)(lua_State *L, int idx);
 LUA_API int(lua_iscfunction)(lua_State *L, int idx);
 LUA_API int(lua_isinteger)(lua_State *L, int idx);
-#ifdef PLUTO_COOP_CPP
+#ifndef PLUTO_COOP
 LUA_API int(lua_istrue)(lua_State *L, int idx) noexcept;
 #endif
 LUA_API int(lua_isuserdata)(lua_State *L, int idx);
@@ -230,7 +230,7 @@ LUA_API const char *(lua_pushlstring) (lua_State * L, const char *s, size_t len)
 LUA_API const char *(lua_pushextlstring) (lua_State * L, const char *s, size_t len, lua_Alloc falloc,
                                           void *ud);
 LUA_API const char *(lua_pushstring) (lua_State * L, const char *s);
-#ifdef PLUTO_COOP_CPP
+#ifndef PLUTO_COOP
 PLUTO_API const char *(pluto_pushstring) (lua_State * L, const std::string &str);
 #endif
 LUA_API const char *(lua_pushvfstring) (lua_State * L, const char *fmt, va_list argp);

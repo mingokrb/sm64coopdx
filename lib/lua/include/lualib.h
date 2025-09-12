@@ -126,7 +126,7 @@ LUAMOD_API int(luaopen_buffer)(lua_State *L);
 LUAMOD_API int(luaopen_socket)(lua_State *L);
 #endif
 
-#ifdef PLUTO_COOP_CPP
+#ifndef PLUTO_COOP
 namespace Pluto {
 extern const PreloadedLibrary preloaded_crypto;
 extern const PreloadedLibrary preloaded_json;
