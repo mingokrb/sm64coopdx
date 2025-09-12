@@ -420,7 +420,7 @@ static void mod_extract_fields(struct Mod* mod) {
     if (mod->isDirectory) {
         for (int i = 0; i < mod->fileCount; i++) {
             struct ModFile* file = &mod->files[i];
-            if (!(strcmp(file->relativePath, "main.lua") || strcmp(file->relativePath, "main.pluto"))) {
+            if (!(strcmp(file->relativePath, "main.lua")) || !(strcmp(file->relativePath, "main.pluto"))) {
                 relativePath = file->relativePath;
             }
         }
