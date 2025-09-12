@@ -1,4 +1,5 @@
 #pragma once
+#define PLUTO_COOP
 /*
 ** $Id: lualib.h $
 ** Lua standard libraries

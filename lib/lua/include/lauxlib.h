@@ -1,4 +1,5 @@
 #pragma once
+#define PLUTO_COOP
 /*
 ** $Id: lauxlib.h $
 ** Auxiliary functions for building Lua libraries

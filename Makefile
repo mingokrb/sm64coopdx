@@ -941,7 +941,6 @@ else
 endif
 
 # Pluto
-DEFINES += PLUTO_COOP
 ifeq ($(WINDOWS_BUILD),1)
   ifeq ($(TARGET_BITS), 32)
     LDFLAGS += -Llib/lua/win32 -l:liblua53.a

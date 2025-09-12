@@ -1,4 +1,5 @@
 #pragma once
+#define PLUTO_COOP
 /*
 ** $Id: lua.h $
 ** Lua - A Scripting Language
