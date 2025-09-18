@@ -63,6 +63,8 @@ HEADLESS ?= 0
 ICON ?= 1
 # Use .app (for macOS)
 USE_APP ?= 1
+# Enable touchscreen controls
+TOUCH_CONTROLS ?= 0
 # Minimum macOS Version
 # If our arch is arm, set to macOS 14
 ifeq ($(shell arch),arm64)
@@ -130,19 +132,38 @@ ifeq ($(HOST_OS),Darwin)
   endif
 endif
 
+# Attempt to detect Termux Android build
+ifneq ($(shell which termux-setup-storage),)
+  TARGET_ANDROID := 1
+endif
+
 ifeq ($(HOST_OS),Linux)
   machine = $(shell sh -c 'uname -m 2>/dev/null || echo unknown')
   ifneq (,$(findstring aarch64,$(machine)))
     #Raspberry Pi 4-5
-    TARGET_RPI = 1
+    ifneq ($(TARGET_ANDROID),1)
+      TARGET_RPI = 1
+    endif
   endif
   ifneq (,$(findstring arm,$(machine)))
     #Rasberry Pi zero, 2, 3, etc
-    TARGET_RPI = 1
+    ifneq ($(TARGET_ANDROID),1)
+      TARGET_RPI = 1
+    endif
   endif
 endif
 
 # MXE overrides
+
+ifeq ($(TARGET_ANDROID),1)
+  RENDER_API := GL
+  WINDOW_API := SDL2
+  AUDIO_API := SDL2
+  CONTROLLER_API := SDL2
+  TOUCH_CONTROLS := 1
+  DISCORD_SDK := 0
+  HANDHELD := 1
+endif
 
 ifeq ($(WINDOWS_BUILD),1)
   ifeq ($(CROSS),i686-w64-mingw32.static-)
@@ -361,11 +382,15 @@ endif
 # Check for certain target types.
 
 ifeq ($(TARGET_RPI),1) # Define RPi to change SDL2 title & GLES2 hints
-     DEFINES += USE_GLES=1
+  DEFINES += USE_GLES=1
 endif
 
 ifeq ($(TARGET_RK3588),1) # Define RK3588 to change SDL2 title & GLES2 hints
   DEFINES += USE_GLES=1
+endif
+
+ifeq ($(TARGET_ANDROID),1) # Define Android to change SDL2 title & GLES2 hints
+  DEFINES += TARGET_ANDROID=1 USE_GLES=1 _LANGUAGE_C=1
 endif
 
 ifeq ($(OSX_BUILD),1) # Modify GFX & SDL2 for OSX GL
@@ -490,6 +515,12 @@ BUILD_DIR := $(BUILD_DIR_BASE)/$(VERSION)_pc
 
 ifeq ($(WINDOWS_BUILD),1)
 	EXE := $(BUILD_DIR)/sm64coopdx.exe
+else ifeq ($(TARGET_ANDROID),1)
+  # Android
+  EXE := $(BUILD_DIR)/libmain.so
+  ZIP_UNCOMPRESSED := $(BUILD_DIR)/sm64coopdx.uncompressed.zip
+  APK_ALIGNED := $(BUILD_DIR)/sm64coopdx.aligned.apk
+  APK_SIGNED := $(BUILD_DIR)/sm64coopdx.apk
 else # Linux builds/binary namer
 	ifeq ($(TARGET_RPI),1)
 		EXE := $(BUILD_DIR)/sm64coopdx.arm
@@ -517,6 +548,10 @@ BIN_DIRS := bin bin/$(VERSION)
 
 # PC files
 SRC_DIRS += src/pc src/pc/gfx src/pc/audio src/pc/controller src/pc/fs src/pc/fs/packtypes src/pc/mods src/pc/dev src/pc/network src/pc/network/packets src/pc/network/socket src/pc/network/coopnet src/pc/utils src/pc/utils/miniz src/pc/djui src/pc/lua src/pc/lua/utils src/pc/os
+
+ifeq ($(TARGET_ANDROID),1)
+  SRC_DIRS += platform/android src/pc/android/execinfo
+endif
 
 ifeq ($(DISCORD_SDK),1)
   SRC_DIRS += src/pc/discord
@@ -757,6 +792,10 @@ else
   INCLUDE_DIRS += sound lib/lua/include lib/coopnet/include $(EXTRA_INCLUDES)
 endif
 
+ifeq ($(TARGET_ANDROID),1)
+  INCLUDE_DIRS += platform/android/include
+endif
+
 # Connfigure backend flags
 
 SDLCONFIG := $(CROSS)sdl2-config
@@ -777,6 +816,8 @@ ifeq ($(WINDOW_API),DXGI)
 else ifeq ($(findstring SDL,$(WINDOW_API)),SDL)
   ifeq ($(WINDOWS_BUILD),1)
     BACKEND_LDFLAGS += -lglew32 -lglu32 -lopengl32
+  else ifeq ($(TARGET_ANDROID),1)
+    BACKEND_LDFLAGS += -lGLESv2 -llog
   else ifeq ($(TARGET_RPI),1)
     BACKEND_LDFLAGS += -lGLESv2
   else ifeq ($(TARGET_RK3588),1)
@@ -818,7 +859,9 @@ else ifeq ($(SDL1_USED),1)
 endif
 
 ifneq ($(SDL1_USED)$(SDL2_USED),00)
-  ifeq ($(OSX_BUILD),1)
+  ifeq ($(TARGET_ANDROID),1)
+    BACKEND_LDFLAGS += -lSDL2
+  else ifeq ($(OSX_BUILD),1)
     # on OSX at least the homebrew version of sdl-config gives include path as `.../include/SDL2` instead of `.../include`
     OSX_PREFIX := $(shell $(SDLCONFIG) --prefix)
     BACKEND_CFLAGS += -I$(OSX_PREFIX)/include $(shell $(SDLCONFIG) --cflags)
@@ -870,6 +913,12 @@ endif
 # C preprocessor flags
 CPPFLAGS := -P -Wno-trigraphs $(DEF_INC_CFLAGS)
 
+ifeq ($(TARGET_ANDROID),1)
+  ifneq ($(shell which termux-setup-storage),) # Termux has clang
+    CPPFLAGS := -E -P -x c -Wno-trigraphs $(DEF_INC_CFLAGS)
+  endif
+endif
+
 ifeq ($(TARGET_N64),1)
   ifeq ($(shell getconf LONG_BIT), 32)
     # Work around memory allocation bug in QEMU
@@ -888,6 +937,18 @@ ifeq ($(WINDOWS_BUILD),1)
   LDFLAGS += -T windows.ld
 else ifeq ($(TARGET_RPI),1)
   LDFLAGS := $(OPT_FLAGS) -lm $(BACKEND_LDFLAGS) -no-pie
+else ifeq ($(TARGET_ANDROID),1)
+  ifneq ($(shell uname -m | grep "i.86"),)
+    ARCH_APK := x86
+  else ifeq ($(shell uname -m),x86_64)
+    ARCH_APK := x86_64
+  else ifeq ($(shell getconf LONG_BIT),64)
+    ARCH_APK := arm64-v8a
+  else
+    ARCH_APK := armeabi-v7a
+  endif
+  CFLAGS  += -fPIC
+  LDFLAGS := -L ./platform/android/android/lib/$(ARCH_APK)/ -lm $(BACKEND_LDFLAGS) -shared
 else ifeq ($(TARGET_RK3588),1)
   LDFLAGS := $(OPT_FLAGS) -lm $(BACKEND_LDFLAGS) -no-pie
 else ifeq ($(OSX_BUILD),1)
@@ -931,7 +992,11 @@ endif
 # Coop specific libraries
 
 # Zlib
-LDFLAGS += -lz
+ifeq ($(TARGET_ANDROID),1)
+  LDFLAGS += -Llib/zlib/android -l:libz.a
+else
+  LDFLAGS += -lz
+endif
 
 # Update checker library
 ifeq ($(WINDOWS_BUILD),1)
@@ -959,6 +1024,8 @@ else ifeq ($(TARGET_RPI),1)
   else
     LDFLAGS += -Llib/lua/linux -l:libplutostatic-arm.a
   endif
+else ifeq ($(TARGET_ANDROID),1)
+  LDFLAGS += -Llib/lua/android -l:liblua.a
 else ifeq ($(TARGET_RK3588),1)
   LDFLAGS += -Llib/lua/linux -l:libplutostatic-arm64.a
 else
@@ -990,6 +1057,8 @@ ifeq ($(COOPNET),1)
     else
       LDFLAGS += -Llib/coopnet/linux -l:libcoopnet-arm.a -l:libjuice-arm.a
     endif
+  else ifeq ($(TARGET_ANDROID),1)
+    LDFLAGS += -Llib/coopnet/android -l:libcoopnet.a -l:libjuice.a
   else ifeq ($(TARGET_RK3588),1)
     LDFLAGS += -Llib/coopnet/linux -l:libcoopnet-arm64.a -l:libjuice.a
   else
@@ -1023,8 +1092,10 @@ else
   C_DEFINES += -DGIT_HASH="\"$(GIT_HASH)\"" -DCOMPILE_TIME="\"$(COMPILE_TIME)\""
 endif
 
-# Enable ASLR
-CFLAGS += -fPIE
+ifneq ($(TARGET_ANDROID),1) # fPIE causes random errors in geo_layout.c
+  # Enable ASLR
+  CFLAGS += -fPIE
+endif
 
 # Prevent a crash with -sopt
 export LANG := C
@@ -1055,6 +1126,14 @@ endif
 ifeq ($(DOCKERBUILD),1)
   CC_CHECK_CFLAGS += -DDOCKERBUILD
   CFLAGS += -DDOCKERBUILD
+endif
+
+ifeq ($(WINDOW_API),SDL2)
+  # Check for SDL2 touch controls
+  ifeq ($(TOUCH_CONTROLS),1)
+    CC_CHECK_CFLAGS += -DTOUCH_CONTROLS
+    CFLAGS += -DTOUCH_CONTROLS
+  endif
 endif
 
 # Check for Discord SDK option
@@ -1176,7 +1255,12 @@ endef
 #==============================================================================#
 
 #all: $(ROM)
+ifeq ($(TARGET_ANDROID),1)
+all: $(APK_SIGNED)
+EXE_DEPEND := $(APK_SIGNED)
+else
 all: $(EXE)
+endif
 
 ifeq ($(WINDOWS_BUILD),1)
 MAPFILE = $(BUILD_DIR)/coop.map
@@ -1565,6 +1649,32 @@ ifeq ($(TARGET_N64),1)
   $(BUILD_DIR)/$(TARGET).objdump: $(ELF)
 	$(OBJDUMP) -D $< > $@
 else
+
+ifeq ($(TARGET_ANDROID),1)
+APK_FILES := $(shell find platform/android/ -type f)
+
+$(ZIP_UNCOMPRESSED): $(EXE) $(APK_FILES)
+	cp -r platform/android $(BUILD_DIR)/platform/ && \
+	mkdir $(BUILD_DIR)/platform/android/android/assets/ && \
+	cp -r mods $(BUILD_DIR)/platform/android/android/assets/ && \
+	cp -r lang $(BUILD_DIR)/platform/android/android/assets/ && \
+  cp -r palettes $(BUILD_DIR)/platform/android/android/assets/ && \
+  cp -r dynos $(BUILD_DIR)/platform/android/android/assets/ && \
+	cp $(PREFIX)/lib/libc++_shared.so $(BUILD_DIR)/platform/android/android/lib/$(ARCH_APK)/ && \
+	cp $(EXE) $(BUILD_DIR)/platform/android/android/lib/$(ARCH_APK)/ && \
+	cd $(BUILD_DIR)/platform/android/android && \
+	zip -0 -r ../../../../../$@ ./* && \
+	cd - && \
+	rm -rf $(BUILD_DIR)/platform/android/android
+
+$(APK_ALIGNED): $(ZIP_UNCOMPRESSED)
+	zipalign -f -p 4 $< $@
+
+$(APK_SIGNED): $(APK_ALIGNED)
+	cp $< $@ && \
+	apksigner sign --cert platform/android/certificate.pem --key platform/android/key.pk8 $@
+endif
+
   $(EXE): $(O_FILES) $(MIO0_FILES:.mio0=.o) $(ULTRA_O_FILES) $(GODDARD_O_FILES) $(BUILD_DIR)/$(RPC_LIBS) $(BUILD_DIR)/$(DISCORD_SDK_LIBS) $(BUILD_DIR)/$(COOPNET_LIBS) $(BUILD_DIR)/$(LANG_DIR) $(BUILD_DIR)/$(MOD_DIR) $(BUILD_DIR)/$(PALETTES_DIR)
 	@$(PRINT) "$(GREEN)Linking executable: $(BLUE)$@ $(NO_COL)\n"
 	$(V)$(LD) $(PROF_FLAGS) -L $(BUILD_DIR) -o $@ $(O_FILES) $(ULTRA_O_FILES) $(GODDARD_O_FILES) $(LDFLAGS)

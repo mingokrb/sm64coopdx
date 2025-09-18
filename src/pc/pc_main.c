@@ -5,6 +5,11 @@
 #include <time.h>
 #include <unistd.h>
 
+#ifdef TARGET_ANDROID
+#include <sys/stat.h>
+#include "platform.h"
+#endif
+
 #include "sm64.h"
 
 #include "pc/lua/smlua.h"
@@ -29,6 +34,9 @@
 #include "thread.h"
 #include "controller/controller_api.h"
 #include "controller/controller_keyboard.h"
+#ifdef TOUCH_CONTROLS
+#include "controller/controller_touchscreen.h"
+#endif
 #include "controller/controller_mouse.h"
 #include "fs/fs.h"
 
@@ -466,13 +474,32 @@ void* main_game_init(UNUSED void* dummy) {
     audio_init();
     sound_init();
     network_player_init();
+#ifndef TARGET_ANDROID
     mumble_init();
+#endif
 
     gGameInited = true;
     return NULL;
 }
 
+#ifdef TARGET_ANDROID
+int SDL_main(int argc, char *argv[]) {
+#else
 int main(int argc, char *argv[]) {
+#endif
+
+// create com.maniscat2.sm64coopdx folder
+#ifdef TARGET_ANDROID
+    char gamedir[SYS_MAX_PATH] = { 0 };
+    const char *basedir = get_gamedir();
+    snprintf(gamedir, SYS_MAX_PATH, "%s/%s", basedir, ".nomedia"); // the `.nomedia` folder prevents media from beind detected in apps like the gallery
+    if (stat(gamedir, NULL) == -1) {
+        mkdir(gamedir, 0770);
+    }
+    // TODO: some way to inhibit this on launch if the apk doesn't contain updated/differing files?
+    SDL_AndroidCopyAssetFilesToDir(basedir);
+#endif
+
     // handle terminal arguments
     if (!parse_cli_opts(argc, argv)) { return 0; }
 
@@ -502,11 +529,13 @@ int main(int argc, char *argv[]) {
     fs_init(gCLIOpts.savePath[0] ? gCLIOpts.savePath : sys_user_path());
 #endif
 
+#ifndef __ANDROID__
 #if !defined(RAPI_DUMMY) && !defined(WAPI_DUMMY)
     if (gCLIOpts.headless) {
         memcpy(&WAPI, &gfx_dummy_wm_api, sizeof(struct GfxWindowManagerAPI));
         memcpy(&RAPI, &gfx_dummy_renderer_api, sizeof(struct GfxRenderingAPI));
     }
+#endif
 #endif
 
     configfile_load();
@@ -516,8 +545,10 @@ int main(int argc, char *argv[]) {
     // create the window almost straight away
     if (!gGfxInited) {
         gfx_init(&WAPI, &RAPI, TITLE);
-        WAPI.set_keyboard_callbacks(keyboard_on_key_down, keyboard_on_key_up, keyboard_on_all_keys_up,
-            keyboard_on_text_input, keyboard_on_text_editing);
+        WAPI.set_keyboard_callbacks(keyboard_on_key_down, keyboard_on_key_up, keyboard_on_all_keys_up, keyboard_on_text_input, keyboard_on_text_editing);
+#ifdef TOUCH_CONTROLS
+        WAPI.set_touchscreen_callbacks((void *)touch_down, (void *)touch_motion, (void *)touch_up);
+#endif
         WAPI.set_scroll_callback(mouse_on_scroll);
     }
 
@@ -610,7 +641,9 @@ int main(int argc, char *argv[]) {
 #ifdef DISCORD_SDK
         discord_update();
 #endif
+#ifndef TARGET_ANDROID
         mumble_update();
+#endif
 #ifdef DEBUG
         fflush(stdout);
         fflush(stderr);

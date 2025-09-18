@@ -70,7 +70,14 @@ f32 djui_gfx_get_scale(void) {
     if (configDjuiScale == 0) { // auto
         u32 windowWidth, windowHeight;
         gfx_get_dimensions(&windowWidth, &windowHeight);
-        return clamp(round_to_multiple_f(((f32)windowHeight / (f32)SCREEN_HEIGHT) / 4.0f, 0.5f), 0.5f, 1.5f);
+
+#ifdef __ANDROID__
+	u32 correctHeight = windowHeight / 720.0f;
+#else
+	u32 correctHeight = windowHeight;
+#endif
+
+        return clamp(round_to_multiple_f(((f32)correctHeight / (f32)SCREEN_HEIGHT) / 4.0f, 0.5f), 0.5f, 1.5f);
     } else {
         switch (configDjuiScale) {
             case 1:  return 0.5f;

@@ -171,6 +171,13 @@ extern unsigned int configDjuiScale;
 // other
 extern unsigned int configRulesVersion;
 extern bool         configCompressOnStartup;
+#ifdef TOUCH_CONTROLS
+extern unsigned int configAndroidBiggerButtons;
+extern unsigned int configTouchControlRed;
+extern unsigned int configTouchControlGreen;
+extern unsigned int configTouchControlBlue;
+extern unsigned int configTouchControlAlpha;
+#endif
 extern bool         configSkipPackGeneration;
 
 // secrets

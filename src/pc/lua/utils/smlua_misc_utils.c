@@ -556,11 +556,15 @@ struct Mod* get_active_mod(void) {
 ///
 
 void set_window_title(const char* title) {
+#ifndef TARGET_ANDROID
     WAPI.set_window_title(title);
+#endif
 }
 
 void reset_window_title(void) {
+#ifndef TARGET_ANDROID
     WAPI.reset_window_title();
+#endif
 }
 
 ///
@@ -570,8 +574,10 @@ const char* get_os_name(void) {
     return "Windows";
 #elif __APPLE__ || __MACH__
     return "Mac OSX"; // should be macOS
-#elif __linux__
+#elif defined(__linux__) && !defined(__ANDROID__)
     return "Linux";
+#elif defined(__ANDROID__)
+    return "Android";
 #elif __FreeBSD__
     return "FreeBSD";
 #elif __unix || __unix__

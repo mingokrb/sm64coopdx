@@ -75,6 +75,7 @@ sm64config.txt
 !/actors/**/*custom*/**/*.png
 !/textures/**/*custom*.png
 !/textures/**/*custom*/**/*.png
+!/textures/touchcontrols/*.png
 !/sound/**/*custom*.m64
 !/sound/**/*custom*/**/*.m64
 !/sound/**/*custom*.aiff
@@ -93,3 +94,7 @@ tools/ido5.3_compiler/usr/lib/libc.so.1
 /.vs
 
 !/lib/**/**/*.a
+
+# Android files
+!platform/android/android/**/*.so
+!lib/**/android/*.a

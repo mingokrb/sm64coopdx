@@ -33,6 +33,10 @@ bool mod_storage_remove(const char* key);
 /* |description|Clears the mod's data from mod storage|descriptionEnd| */
 bool mod_storage_clear(void);
 
+#ifdef __ANDROID__
+void key_cache_init(void);
+#endif
+
 #ifdef __cplusplus
 }
 #endif

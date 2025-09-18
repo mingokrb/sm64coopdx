@@ -79,7 +79,7 @@ void controller_mouse_read_window(void) {
         mouse_window_x = p.x - gfx_current_dimensions.x_adjust_4by3;
         mouse_window_y = p.y;
     }
-#elif defined(CAPI_SDL1) || defined(CAPI_SDL2)
+#elif defined(CAPI_SDL1) || defined(CAPI_SDL2) || defined(__ANDROID__)
     mouse_window_buttons = SDL_GetMouseState(&mouse_window_x, &mouse_window_y);
     mouse_window_x -= gfx_current_dimensions.x_adjust_4by3;
 #endif

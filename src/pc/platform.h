@@ -6,6 +6,9 @@
 #include <string.h>
 
 /* platform-specific functions and whatnot */
+#ifdef TARGET_ANDROID
+#define ANDROID_APPNAME "com.maniscat2.sm64coopdx"
+#endif
 
 #define SYS_MAX_PATH 4096
 
@@ -15,6 +18,9 @@ char *sys_strlwr(char *src);
 int sys_strcasecmp(const char *s1, const char *s2);
 
 // path stuff
+#ifdef TARGET_ANDROID
+const char* get_gamedir(void);
+#endif
 #ifdef _WIN32
 bool sys_windows_short_path_from_wcs(char *destPath, size_t destSize, const wchar_t *wcsLongPath);
 bool sys_windows_short_path_from_mbs(char* destPath, size_t destSize, const char *mbsLongPath);

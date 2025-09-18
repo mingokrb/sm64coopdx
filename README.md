@@ -2,7 +2,14 @@
 
 sm64coopdx is an online multiplayer project for the Super Mario 64 PC port that synchronizes all entities and every level for multiple players. The project was started by the Coop Deluxe Team. The purpose is to actively maintain and improve, but also continue sm64ex-coop, created by djoslin0. More features, customization, and power to the Lua API allow modders and players to enjoy Super Mario 64 more than ever!
 
-Feel free to report bugs or contribute to the project. 
+Feel free to report bugs or contribute to the project.
+
+Contains some code from:\
+[AloXado320/sm64ex-alo](https://github.com/AloXado320/sm64ex-alo) \
+[VDavid003/sm64-port-android](https://github.com/VDavid003/sm64-port-android) \
+[VDavid003/sm64-port-android-base](https://github.com/VDavid003/sm64-port-android-base) \
+[porcino/sm64-port-android](https://github.com/porcino/sm64-port-android) \
+[robertkirkman/sm64ex-coop](https://github.com/robertkirkman/sm64ex-coop)
 
 ## Initial Goal (Accomplished)
 Create a mod for the PC port where multiple people can play together online.
@@ -15,4 +22,8 @@ Interestingly enough though, the goal of the project has slowly evolved over tim
 sm64coopdx is moddable via Lua, similar to Roblox and Garry's Mod's Lua APIs. To get started, click [here](docs/lua/lua.md) to see the Lua documentation.
 
 ## Wiki
-The wiki is made using GitHub's wiki feature, you can go to the wiki tab or click [here](https://github.com/coop-deluxe/sm64coopdx/wiki).
+The wiki is made using GitHub's wiki feature, you can go to the wiki tab or click [here](https://github.com/ManIsCat2/sm64coopdx/wiki).
+
+## Discord
+This SM64CoopDX android port has a discord server that you can join if you have questions or want to report bugs or just wanna download the game.
+[discord link](https://discord.gg/WzQSRfHh6g)

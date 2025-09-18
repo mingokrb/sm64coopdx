@@ -2,6 +2,9 @@
 #include "mods.h"
 #include "mods_utils.h"
 #include "mod_cache.h"
+#ifdef __ANDROID__
+#include "mod_storage.h"
+#endif
 #include "data/dynos.c.h"
 #include "pc/debuglog.h"
 #include "pc/loading.h"
@@ -283,6 +286,10 @@ void mods_refresh_local(void) {
 
     // clear mods
     mods_clear(&gLocalMods);
+
+#ifdef __ANDROID__
+    key_cache_init();
+#endif
 
     // load mods
     if (hasUserPath) { mods_load(&gLocalMods, userModPath, true); }

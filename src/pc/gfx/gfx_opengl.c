@@ -67,7 +67,9 @@ static struct ShaderProgram shader_program_pool[CC_MAX_SHADERS];
 static uint8_t shader_program_pool_size = 0;
 static uint8_t shader_program_pool_index = 0;
 static GLuint opengl_vbo;
+#ifndef TARGET_ANDROID
 static GLuint opengl_vao;
+#endif
 
 static int tex_cache_size = 0;
 static int num_textures = 0;
@@ -254,12 +256,7 @@ static struct ShaderProgram *gfx_opengl_create_and_load_new_shader(struct ColorC
     bool opt_texture_edge = cc->cm.texture_edge;
     bool opt_2cycle = cc->cm.use_2cycle;
     bool opt_light_map = cc->cm.light_map;
-
-#ifdef USE_GLES
-    bool opt_dither = false;
-#else
     bool opt_dither = cc->cm.use_dither;
-#endif
 
     char vs_buf[1024];
     char fs_buf[2048];
@@ -367,7 +364,11 @@ static struct ShaderProgram *gfx_opengl_create_and_load_new_shader(struct ColorC
 
         append_line(fs_buf, &fs_len, "float random(in vec3 value) {");
         append_line(fs_buf, &fs_len, "    float random = dot(sin(value), vec3(12.9898, 78.233, 37.719));");
+#ifdef USE_GLES
+        append_line(fs_buf, &fs_len, "    return fract(sin(random) * 143.7585453);");
+#else
         append_line(fs_buf, &fs_len, "    return fract(sin(random) * 143758.5453);");
+#endif
         append_line(fs_buf, &fs_len, "}");
     }
 
@@ -709,10 +710,12 @@ static void gfx_opengl_init(void) {
 
     glBindBuffer(GL_ARRAY_BUFFER, opengl_vbo);
 
+#ifndef TARGET_ANDROID
     if (vmajor >= 3 && !is_es) {
         glGenVertexArrays(1, &opengl_vao);
         glBindVertexArray(opengl_vao);
     }
+#endif
 
     glDepthFunc(GL_LEQUAL);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
