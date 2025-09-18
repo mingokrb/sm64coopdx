@@ -201,7 +201,7 @@ static struct LuaObjectField sAnimationTableFields[LUA_ANIMATION_TABLE_FIELD_COU
 #define LUA_AREA_FIELD_COUNT 21
 static struct LuaObjectField sAreaFields[LUA_AREA_FIELD_COUNT] = {
     { "camera",              LVT_COBJECT_P, offsetof(struct Area, camera),              false, LOT_CAMERA,         1, sizeof(struct Camera*)         },
-    { "dialog",              LVT_U8,        offsetof(struct Area, dialog),              false, LOT_NONE,           2, sizeof(u8)                     },
+    { "dialog",              LVT_S32,       offsetof(struct Area, dialog),              false, LOT_NONE,           2, sizeof(s32)                    },
     { "flags",               LVT_S8,        offsetof(struct Area, flags),               false, LOT_NONE,           1, sizeof(s8)                     },
     { "index",               LVT_S8,        offsetof(struct Area, index),               false, LOT_NONE,           1, sizeof(s8)                     },
     { "instantWarps",        LVT_COBJECT_P, offsetof(struct Area, instantWarps),        false, LOT_INSTANTWARP,    1, sizeof(struct InstantWarp*)    },
@@ -2768,11 +2768,11 @@ static struct LuaObjectField sSurfaceFields[LUA_SURFACE_FIELD_COUNT] = {
 
 #define LUA_TEXTURE_INFO_FIELD_COUNT 5
 static struct LuaObjectField sTextureInfoFields[LUA_TEXTURE_INFO_FIELD_COUNT] = {
-    { "bitSize", LVT_U8,       offsetof(struct TextureInfo, bitSize), true, LOT_NONE,    1, sizeof(u8)          },
-    { "height",  LVT_U32,      offsetof(struct TextureInfo, height),  true, LOT_NONE,    1, sizeof(u32)         },
-    { "name",    LVT_STRING_P, offsetof(struct TextureInfo, name),    true, LOT_NONE,    1, sizeof(const char*) },
-    { "texture", LVT_U8_P,     offsetof(struct TextureInfo, texture), true, LOT_POINTER, 1, sizeof(u8*)         },
-    { "width",   LVT_U32,      offsetof(struct TextureInfo, width),   true, LOT_NONE,    1, sizeof(u32)         },
+    { "bitSize", LVT_U8,        offsetof(struct TextureInfo, bitSize), true, LOT_NONE,    1, sizeof(u8)          },
+    { "height",  LVT_U32,       offsetof(struct TextureInfo, height),  true, LOT_NONE,    1, sizeof(u32)         },
+    { "name",    LVT_STRING_P,  offsetof(struct TextureInfo, name),    true, LOT_NONE,    1, sizeof(const char*) },
+    { "texture", LVT_TEXTURE_P, offsetof(struct TextureInfo, texture), true, LOT_POINTER, 1, sizeof(Texture*)    },
+    { "width",   LVT_U32,       offsetof(struct TextureInfo, width),   true, LOT_NONE,    1, sizeof(u32)         },
 };
 
 #define LUA_TRANSITION_INFO_FIELD_COUNT 9
