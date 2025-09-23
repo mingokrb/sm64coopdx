@@ -23,7 +23,7 @@ size_t mod_get_lua_size(struct Mod* mod) {
 
     for (int i = 0; i < mod->fileCount; i++) {
         struct ModFile* file = &mod->files[i];
-        if (!(str_ends_with(file->relativePath, ".lua") || str_ends_with(file->relativePath, ".luac"))) { continue; }
+        if (!(str_ends_with(file->relativePath, ".lua") || str_ends_with(file->relativePath, ".luac") || str_ends_with(file->relativePath, ".pluto") || str_ends_with(file->relativePath, ".plutoc"))) { continue; }
         size += file->size;
     }
 
@@ -348,15 +348,15 @@ static bool mod_load_files_dir(struct Mod* mod, char* fullPath, const char* subD
     return true;
 }
 
-static bool mod_load_files(struct Mod* mod, char* modName, char* fullPath) {
+static bool mod_load_files(struct Mod* mod, char* fullPath) {
     // read single lua file
     if (!mod->isDirectory) {
-        return (mod_allocate_file(mod, modName) != NULL);
+        return (mod_allocate_file(mod, mod->relativePath) != NULL);
     }
 
     // deal with mod directory
     {
-        const char* fileTypes[] = { ".lua", ".luac", NULL };
+        const char* fileTypes[] = { ".lua", ".luac", ".pluto", ".plutoc", NULL };
         if (!mod_load_files_dir(mod, fullPath, "", fileTypes, true)) { return false; }
     }
 
@@ -420,7 +420,7 @@ static void mod_extract_fields(struct Mod* mod) {
     if (mod->isDirectory) {
         for (int i = 0; i < mod->fileCount; i++) {
             struct ModFile* file = &mod->files[i];
-            if (!strcmp(file->relativePath, "main.lua")) {
+            if (!(strcmp(file->relativePath, "main.lua")) || !(strcmp(file->relativePath, "main.pluto"))) {
                 relativePath = file->relativePath;
             }
         }
@@ -526,7 +526,7 @@ bool mod_refresh_files(struct Mod* mod) {
     dynos_generate_mod_pack(mod->basePath);
 
     // read files
-    if (!mod_load_files(mod, mod->name, mod->basePath)) {
+    if (!mod_load_files(mod, mod->basePath)) {
         LOG_ERROR("Failed to load mod files for '%s'", mod->name);
         return false;
     }
@@ -555,11 +555,11 @@ bool mod_load(struct Mods* mods, char* basePath, char* modName) {
     bool isDirectory = fs_sys_dir_exists(fullPath);
 
     // make sure mod is valid
-    if (str_ends_with(modName, ".lua")) {
+    if (str_ends_with(modName, ".lua") || str_ends_with(modName, ".pluto")) {
         valid = true;
     } else if (fs_sys_dir_exists(fullPath)) {
         char tmpPath[SYS_MAX_PATH] = { 0 };
-        if (!concat_path(tmpPath, fullPath, "main.lua")) {
+        if (!concat_path(tmpPath, fullPath, "main.lua") && !concat_path(tmpPath, fullPath, "main.pluto")) {
             LOG_ERROR("Failed to concat path '%s' + '%s'", fullPath, "main.lua");
             return true;
         }
@@ -613,7 +613,7 @@ bool mod_load(struct Mods* mods, char* basePath, char* modName) {
     mod->isDirectory = isDirectory;
 
     // read files
-    if (!mod_load_files(mod, modName, fullPath)) {
+    if (!mod_load_files(mod, fullPath)) {
         LOG_ERROR("Failed to load mod files for '%s'", modName);
         return false;
     }

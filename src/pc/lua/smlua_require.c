@@ -41,9 +41,13 @@ static struct ModFile* smlua_find_mod_file(const char* moduleName) {
     char rawName[SYS_MAX_PATH] = "";
     char luaName[SYS_MAX_PATH] = "";
     char luacName[SYS_MAX_PATH] = "";
+    char plutoName[SYS_MAX_PATH] = "";
+    char plutocName[SYS_MAX_PATH] = "";
     snprintf(rawName, SYS_MAX_PATH, "/%s", moduleName);
     snprintf(luaName, SYS_MAX_PATH, "/%s.lua", moduleName);
     snprintf(luacName, SYS_MAX_PATH, "/%s.luac", moduleName);
+    snprintf(plutoName, SYS_MAX_PATH, "/%s.pluto", moduleName);
+    snprintf(plutocName, SYS_MAX_PATH, "/%s.plutoc", moduleName);
 
     for (int i = 0; i < gLuaActiveMod->fileCount; i++) {
         struct ModFile* file = &gLuaActiveMod->files[i];
@@ -53,13 +57,13 @@ static struct ModFile* smlua_find_mod_file(const char* moduleName) {
             continue;
         }
 
-        // only consider lua files
-        if (!str_ends_with(file->relativePath, ".lua") && !str_ends_with(file->relativePath, ".luac")) {
+        // only consider lua and pluto files
+        if (!str_ends_with(file->relativePath, ".lua") && !str_ends_with(file->relativePath, ".luac") && !str_ends_with(file->relativePath, ".pluto") && !str_ends_with(file->relativePath, ".plutoc")) {
             continue;
         }
 
         // check for match
-        if (!str_ends_with(file->relativePath, rawName) && !str_ends_with(file->relativePath, luaName) && !str_ends_with(file->relativePath, luacName)) {
+        if (!str_ends_with(file->relativePath, rawName) && !str_ends_with(file->relativePath, luaName) && !str_ends_with(file->relativePath, luacName) && !str_ends_with(file->relativePath, plutoName) && !str_ends_with(file->relativePath, plutocName)) {
             continue;
         }
 

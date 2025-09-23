@@ -12,6 +12,7 @@ const char* get_version(void) {
 #endif // VERSION_US
     return sVersionString;
 }
+
 #ifdef COMPILE_TIME
 const char* get_version_with_build_date(void) {
 #if defined(VERSION_US)
