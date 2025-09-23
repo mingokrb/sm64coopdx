@@ -3,7 +3,7 @@ name: Build coop
 on:
     workflow_dispatch:
     push:
-        branches: [ android-dev ]
+        branches: [ android-dev, android-dev-plutoLua2 ]
 
 jobs:
     build-linux:
