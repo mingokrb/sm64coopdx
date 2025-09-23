@@ -16,5 +16,7 @@ struct PcDebug {
 
 extern struct PcDebug gPcDebug;
 extern char gLastRemoteBhv[];
+
 void crash_handler_init(void);
+
 #endif

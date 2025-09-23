@@ -11,7 +11,6 @@
 #include "pc/utils/misc.h"
 #include "pc/configfile.h"
 #include "pc/debuglog.h"
-#include "pc/network/version.h"
 #include "macros.h"
 
 #ifdef COOPNET
@@ -110,6 +109,7 @@ void djui_panel_join_query(uint64_t aLobbyId, UNUSED uint64_t aOwnerId, uint16_t
 
     char playerText[64] = "";
     snprintf(playerText, 63, "%u/%u", aConnections, aMaxConnections);
+
 
     char mode[64] = "";
     snprintf(mode, 64, "%s", aMode);

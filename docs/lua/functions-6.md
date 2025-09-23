@@ -2,7 +2,7 @@
 
 ---
 
-[< prev](functions-5.md) | [1](functions.md) | [2](functions-2.md) | [3](functions-3.md) | [4](functions-4.md) | [5](functions-5.md) | 6]
+[< prev](functions-5.md) | [1](functions.md) | [2](functions-2.md) | [3](functions-3.md) | [4](functions-4.md) | [5](functions-5.md) | 6 | [7](functions-7.md) | [next >](functions-7.md)]
 
 
 ---
@@ -3446,10 +3446,33 @@ Gets the texture from a display list command if it has an image related op
 | cmd | `Pointer` <`Gfx`> |
 
 ### Returns
-- `Pointer` <`integer`>
+- `Pointer` <`Texture`>
 
 ### C Prototype
-`u8 *gfx_get_texture(Gfx *cmd);`
+`Texture *gfx_get_texture(Gfx *cmd);`
+
+[:arrow_up_small:](#)
+
+<br />
+
+## [gfx_get_name](#gfx_get_name)
+
+### Description
+Gets the name of a display list
+
+### Lua Example
+`local stringValue = gfx_get_name(gfx)`
+
+### Parameters
+| Field | Type |
+| ----- | ---- |
+| gfx | `Pointer` <`Gfx`> |
+
+### Returns
+- `string`
+
+### C Prototype
+`const char *gfx_get_name(Gfx *gfx);`
 
 [:arrow_up_small:](#)
 
@@ -3637,6 +3660,29 @@ Deletes all display lists created by `gfx_create`
 
 ### C Prototype
 `void gfx_delete_all();`
+
+[:arrow_up_small:](#)
+
+<br />
+
+## [vtx_get_name](#vtx_get_name)
+
+### Description
+Gets the name of a vertex buffer
+
+### Lua Example
+`local stringValue = vtx_get_name(vtx)`
+
+### Parameters
+| Field | Type |
+| ----- | ---- |
+| vtx | `Pointer` <`Vtx`> |
+
+### Returns
+- `string`
+
+### C Prototype
+`const char *vtx_get_name(Vtx *vtx);`
 
 [:arrow_up_small:](#)
 
@@ -4464,7 +4510,7 @@ Gets the current dialog box ID
 - `integer`
 
 ### C Prototype
-`s16 get_dialog_id(void);`
+`s32 get_dialog_id(void);`
 
 [:arrow_up_small:](#)
 
@@ -5951,7 +5997,7 @@ Gets the current GraphNodeHeldObject
 ## [texture_to_lua_table](#texture_to_lua_table)
 
 ### Description
-Converts a texture's pixels to a Lua table. Returns nil if failed. Otherwise, returns a table as a pure memory buffer. Supports rgba16 and rgba32 textures.
+Converts a texture's pixels to a Lua table. Returns nil if failed. Otherwise, returns a table as a pure memory buffer. Supports rgba16 and rgba32 textures
 
 ### Lua Example
 `texture_to_lua_table(tex)`
@@ -5959,13 +6005,36 @@ Converts a texture's pixels to a Lua table. Returns nil if failed. Otherwise, re
 ### Parameters
 | Field | Type |
 | ----- | ---- |
-| tex | `Pointer` <`integer`> |
+| tex | `Pointer` <`Texture`> |
 
 ### Returns
 - None
 
 ### C Prototype
-`void texture_to_lua_table(const u8 *tex);`
+`void texture_to_lua_table(const Texture *tex);`
+
+[:arrow_up_small:](#)
+
+<br />
+
+## [get_texture_name](#get_texture_name)
+
+### Description
+Gets the name of the provided texture pointer `tex`
+
+### Lua Example
+`local stringValue = get_texture_name(tex)`
+
+### Parameters
+| Field | Type |
+| ----- | ---- |
+| tex | `Pointer` <`Texture`> |
+
+### Returns
+- `string`
+
+### C Prototype
+`const char *get_texture_name(const Texture *tex);`
 
 [:arrow_up_small:](#)
 
@@ -7254,6 +7323,29 @@ Replaces `dialogId` with a custom one
 
 <br />
 
+## [smlua_text_utils_dialog_restore](#smlua_text_utils_dialog_restore)
+
+### Description
+Restores a replaced DialogEntry to its original state.
+
+### Lua Example
+`smlua_text_utils_dialog_restore(dialogId)`
+
+### Parameters
+| Field | Type |
+| ----- | ---- |
+| dialogId | [enum DialogId](constants.md#enum-DialogId) |
+
+### Returns
+- None
+
+### C Prototype
+`void smlua_text_utils_dialog_restore(enum DialogId dialogId);`
+
+[:arrow_up_small:](#)
+
+<br />
+
 ## [smlua_text_utils_dialog_is_replaced](#smlua_text_utils_dialog_is_replaced)
 
 ### Description
@@ -7272,6 +7364,27 @@ Returns whether the dialog with the given ID has been replaced
 
 ### C Prototype
 `bool smlua_text_utils_dialog_is_replaced(enum DialogId dialogId);`
+
+[:arrow_up_small:](#)
+
+<br />
+
+## [smlua_text_utils_allocate_dialog](#smlua_text_utils_allocate_dialog)
+
+### Description
+Allocates a new dialog entry
+
+### Lua Example
+`local integerValue = smlua_text_utils_allocate_dialog()`
+
+### Parameters
+- None
+
+### Returns
+- `integer`
+
+### C Prototype
+`s32 smlua_text_utils_allocate_dialog(void);`
 
 [:arrow_up_small:](#)
 
@@ -8399,157 +8512,7 @@ Gets the closest point of the triangle to `src` and returns it in `out`.
 [:arrow_up_small:](#)
 
 <br />
-
----
-# functions from surface_load.h
-
-<br />
-
-
-## [load_object_collision_model](#load_object_collision_model)
-
-### Description
-Loads the object's collision data into dynamic collision. You must run this every frame in your object's behavior loop for it to have collision
-
-### Lua Example
-`load_object_collision_model()`
-
-### Parameters
-- None
-
-### Returns
-- None
-
-### C Prototype
-`void load_object_collision_model(void);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [obj_get_surface_from_index](#obj_get_surface_from_index)
-
-### Description
-Gets a surface corresponding to `index` from the surface pool buffer
-
-### Lua Example
-`local SurfaceValue = obj_get_surface_from_index(o, index)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| o | [Object](structs.md#Object) |
-| index | `integer` |
-
-### Returns
-[Surface](structs.md#Surface)
-
-### C Prototype
-`struct Surface *obj_get_surface_from_index(struct Object *o, u32 index);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [surface_has_force](#surface_has_force)
-
-### Description
-Checks if a surface has force
-
-### Lua Example
-`local booleanValue = surface_has_force(surfaceType)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| surfaceType | `integer` |
-
-### Returns
-- `boolean`
-
-### C Prototype
-`bool surface_has_force(s16 surfaceType);`
-
-[:arrow_up_small:](#)
-
-<br />
-
----
-# functions from sync_object.h
-
-<br />
-
-
-## [sync_object_get_object](#sync_object_get_object)
-
-### Description
-Retrieves an object from a sync ID
-
-### Lua Example
-`local ObjectValue = sync_object_get_object(syncId)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| syncId | `integer` |
-
-### Returns
-[Object](structs.md#Object)
-
-### C Prototype
-`struct Object* sync_object_get_object(u32 syncId);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [sync_object_is_initialized](#sync_object_is_initialized)
-
-### Description
-Checks if a sync object is initialized using a `syncId`
-
-### Lua Example
-`local booleanValue = sync_object_is_initialized(syncId)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| syncId | `integer` |
-
-### Returns
-- `boolean`
-
-### C Prototype
-`bool sync_object_is_initialized(u32 syncId);`
-
-[:arrow_up_small:](#)
-
-<br />
-
-## [sync_object_is_owned_locally](#sync_object_is_owned_locally)
-
-### Description
-Checks if a sync object is owned locally using a `syncId`
-
-### Lua Example
-`local booleanValue = sync_object_is_owned_locally(syncId)`
-
-### Parameters
-| Field | Type |
-| ----- | ---- |
-| syncId | `integer` |
-
-### Returns
-- `boolean`
-
-### C Prototype
-`bool sync_object_is_owned_locally(u32 syncId);`
-
-[:arrow_up_small:](#)
-
-<br />
-
 ---
 
-[< prev](functions-5.md) | [1](functions.md) | [2](functions-2.md) | [3](functions-3.md) | [4](functions-4.md) | [5](functions-5.md) | 6]
+[< prev](functions-5.md) | [1](functions.md) | [2](functions-2.md) | [3](functions-3.md) | [4](functions-4.md) | [5](functions-5.md) | 6 | [7](functions-7.md) | [next >](functions-7.md)]
 

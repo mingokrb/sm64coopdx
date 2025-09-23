@@ -2,7 +2,7 @@
 
 ---
 
-1 | [2](functions-2.md) | [3](functions-3.md) | [4](functions-4.md) | [5](functions-5.md) | [6](functions-6.md) | [next >](functions-2.md)]
+1 | [2](functions-2.md) | [3](functions-3.md) | [4](functions-4.md) | [5](functions-5.md) | [6](functions-6.md) | [7](functions-7.md) | [next >](functions-2.md)]
 
 ---
 
@@ -776,6 +776,10 @@
    - [djui_hud_get_mouse_buttons_released](functions-3.md#djui_hud_get_mouse_buttons_released)
    - [djui_hud_get_mouse_scroll_x](functions-3.md#djui_hud_get_mouse_scroll_x)
    - [djui_hud_get_mouse_scroll_y](functions-3.md#djui_hud_get_mouse_scroll_y)
+   - [djui_hud_set_viewport](functions-3.md#djui_hud_set_viewport)
+   - [djui_hud_reset_viewport](functions-3.md#djui_hud_reset_viewport)
+   - [djui_hud_set_scissor](functions-3.md#djui_hud_set_scissor)
+   - [djui_hud_reset_scissor](functions-3.md#djui_hud_reset_scissor)
    - [djui_hud_measure_text](functions-3.md#djui_hud_measure_text)
    - [djui_hud_print_text](functions-3.md#djui_hud_print_text)
    - [djui_hud_print_text_interpolated](functions-3.md#djui_hud_print_text_interpolated)
@@ -785,6 +789,7 @@
    - [djui_hud_render_texture_tile_interpolated](functions-3.md#djui_hud_render_texture_tile_interpolated)
    - [djui_hud_render_rect](functions-3.md#djui_hud_render_rect)
    - [djui_hud_render_rect_interpolated](functions-3.md#djui_hud_render_rect_interpolated)
+   - [djui_hud_render_line](functions-3.md#djui_hud_render_line)
    - [get_current_fov](functions-3.md#get_current_fov)
    - [djui_hud_get_fov_coeff](functions-3.md#djui_hud_get_fov_coeff)
    - [djui_hud_world_pos_to_screen_pos](functions-3.md#djui_hud_world_pos_to_screen_pos)
@@ -1159,6 +1164,7 @@
    - [stopping_step](functions-4.md#stopping_step)
    - [landing_step](functions-4.md#landing_step)
    - [check_common_landing_cancels](functions-4.md#check_common_landing_cancels)
+   - [mario_exit_palette_editor](functions-4.md#mario_exit_palette_editor)
    - [check_common_stationary_cancels](functions-4.md#check_common_stationary_cancels)
    - [mario_execute_stationary_action](functions-4.md#mario_execute_stationary_action)
 
@@ -1928,6 +1934,7 @@
    - [gfx_get_vertex_buffer](functions-6.md#gfx_get_vertex_buffer)
    - [gfx_get_vertex_count](functions-6.md#gfx_get_vertex_count)
    - [gfx_get_texture](functions-6.md#gfx_get_texture)
+   - [gfx_get_name](functions-6.md#gfx_get_name)
    - [gfx_get_length](functions-6.md#gfx_get_length)
    - [gfx_get_command](functions-6.md#gfx_get_command)
    - [gfx_get_next_command](functions-6.md#gfx_get_next_command)
@@ -1936,6 +1943,7 @@
    - [gfx_resize](functions-6.md#gfx_resize)
    - [gfx_delete](functions-6.md#gfx_delete)
    - [gfx_delete_all](functions-6.md#gfx_delete_all)
+   - [vtx_get_name](functions-6.md#vtx_get_name)
    - [vtx_get_count](functions-6.md#vtx_get_count)
    - [vtx_get_vertex](functions-6.md#vtx_get_vertex)
    - [vtx_get_next_vertex](functions-6.md#vtx_get_next_vertex)
@@ -2047,6 +2055,7 @@
    - [geo_get_current_camera](functions-6.md#geo_get_current_camera)
    - [geo_get_current_held_object](functions-6.md#geo_get_current_held_object)
    - [texture_to_lua_table](functions-6.md#texture_to_lua_table)
+   - [get_texture_name](functions-6.md#get_texture_name)
 
 <br />
 
@@ -2112,7 +2121,9 @@
    - [smlua_text_utils_reset_all](functions-6.md#smlua_text_utils_reset_all)
    - [smlua_text_utils_dialog_get](functions-6.md#smlua_text_utils_dialog_get)
    - [smlua_text_utils_dialog_replace](functions-6.md#smlua_text_utils_dialog_replace)
+   - [smlua_text_utils_dialog_restore](functions-6.md#smlua_text_utils_dialog_restore)
    - [smlua_text_utils_dialog_is_replaced](functions-6.md#smlua_text_utils_dialog_is_replaced)
+   - [smlua_text_utils_allocate_dialog](functions-6.md#smlua_text_utils_allocate_dialog)
    - [smlua_text_utils_course_acts_replace](functions-6.md#smlua_text_utils_course_acts_replace)
    - [smlua_text_utils_secret_star_replace](functions-6.md#smlua_text_utils_secret_star_replace)
    - [smlua_text_utils_course_name_replace](functions-6.md#smlua_text_utils_course_name_replace)
@@ -2177,16 +2188,16 @@
 <br />
 
 - surface_load.h
-   - [load_object_collision_model](functions-6.md#load_object_collision_model)
-   - [obj_get_surface_from_index](functions-6.md#obj_get_surface_from_index)
-   - [surface_has_force](functions-6.md#surface_has_force)
+   - [load_object_collision_model](functions-7.md#load_object_collision_model)
+   - [obj_get_surface_from_index](functions-7.md#obj_get_surface_from_index)
+   - [surface_has_force](functions-7.md#surface_has_force)
 
 <br />
 
 - sync_object.h
-   - [sync_object_get_object](functions-6.md#sync_object_get_object)
-   - [sync_object_is_initialized](functions-6.md#sync_object_is_initialized)
-   - [sync_object_is_owned_locally](functions-6.md#sync_object_is_owned_locally)
+   - [sync_object_get_object](functions-7.md#sync_object_get_object)
+   - [sync_object_is_initialized](functions-7.md#sync_object_is_initialized)
+   - [sync_object_is_owned_locally](functions-7.md#sync_object_is_owned_locally)
 
 <br />
 
@@ -2832,5 +2843,5 @@ Plays a screen transition after a `delay` in frames
 <br />
 ---
 
-1 | [2](functions-2.md) | [3](functions-3.md) | [4](functions-4.md) | [5](functions-5.md) | [6](functions-6.md) | [next >](functions-2.md)]
+1 | [2](functions-2.md) | [3](functions-3.md) | [4](functions-4.md) | [5](functions-5.md) | [6](functions-6.md) | [7](functions-7.md) | [next >](functions-2.md)]
 

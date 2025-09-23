@@ -2,6 +2,7 @@
 #include "crash_handler.h"
 
 char gLastRemoteBhv[256] = "";
+
 #if (defined(_WIN32) || defined(__linux__)) && !defined(WAPI_DUMMY)
 
 #ifdef HAVE_SDL2

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "djui.h"
+#include "djui_hud_utils.h"
 #include "djui_console.h"
 #include "pc/pc_main.h"
 #include "engine/math_util.h"
@@ -142,7 +143,7 @@ void djui_console_message_create(const char* message, enum ConsoleMessageLevel l
 
     f32 maxTextWidth = gDjuiConsole->base.comp.width - gDjuiConsole->base.padding.left.value - gDjuiConsole->base.padding.right.value;
 
-    struct DjuiText* text = djui_text_create(cfBase, message);
+    struct DjuiText* text = djui_text_create_with_font_type(cfBase, message, FONT_SPECIAL);
     struct DjuiBase* tBase = &text->base;
     djui_base_set_alignment(tBase, DJUI_HALIGN_LEFT, DJUI_VALIGN_BOTTOM);
     djui_base_set_size_type(tBase, DJUI_SVT_ABSOLUTE, DJUI_SVT_ABSOLUTE);

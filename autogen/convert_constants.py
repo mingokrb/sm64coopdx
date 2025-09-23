@@ -110,7 +110,10 @@ include_constants = {
         "^G_TEXRECTFLIP$",
         "^G_TEXRECT$",
     ],
-    "include/PR/gbi_extension.h": [ "G_VTX_EXT" ],
+    "include/PR/gbi_extension.h": [
+        "^G_VTX_EXT$",
+        "^G_PPARTTOCOLOR$"
+    ],
 }
 
 # Constants that exist in the source code but should not appear
@@ -202,6 +205,7 @@ def process_enum(filename, line, inIfBlock):
 
     constants = []
     set_to = None
+    set_to_val = None
     index = 0
     fields = val.split(',')
     for field in fields:
@@ -210,14 +214,25 @@ def process_enum(filename, line, inIfBlock):
             continue
 
         if '=' in field:
-            ident, val = field.split('=', 2)
-            constants.append([ident.strip(), val.strip()])
+            ident, val = field.split('=', 1)
+            ident = ident.strip()
+            val = val.strip()
+
+            try:
+                set_to_val = int(eval(val, {}, {}))
+            except Exception:
+                set_to_val = None
+
+            constants.append([ident, val])
             set_to = ident
             index = 1
             continue
 
         if set_to is not None:
-            constants.append([field, '((%s) + %d)' % (set_to, index)])
+            if set_to_val is not None:
+                constants.append([field, str(set_to_val + index)])
+            else:
+                constants.append([field, '((%s) + %d)' % (set_to, index)])
             index += 1
             continue
 

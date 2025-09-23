@@ -25,5 +25,5 @@ sm64coopdx is moddable via Lua, similar to Roblox and Garry's Mod's Lua APIs. To
 The wiki is made using GitHub's wiki feature, you can go to the wiki tab or click [here](https://github.com/ManIsCat2/sm64coopdx/wiki).
 
 ## Discord
-This SM64CoopDX android port has a discord server that you can join if you have questions or want to report bugs or just wanna download the game.
-[discord link](https://discord.gg/WzQSRfHh6g)
+This Android port has a Discord server where you can ask questions, report bugs, get notified for new updates, or find people to chat and play together.
+[Click here to join!](https://discord.gg/WzQSRfHh6g)
