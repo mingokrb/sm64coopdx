@@ -199,7 +199,7 @@ static void coopnet_populate_description(void) {
     const char* stars[8];
     sprintf(stars, "\n%c x%d", '~' + 1, save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1));
     int starsLength = strlen(stars);
-    snprinf(buffer, bufferLength, "%s", stars);
+    snprintf(buffer, bufferLength, "%s", stars);
     buffer += starsLength;
     bufferLength -= starsLength;
 
