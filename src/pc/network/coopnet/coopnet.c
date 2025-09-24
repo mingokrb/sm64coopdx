@@ -13,6 +13,11 @@
 #include "pc/discord/discord.h"
 #endif
 
+#include <PR/ultratypes.h>
+#include "course_table.h"
+#include "game/area.h"
+#include "game/save_file.h"
+
 #ifdef COOPNET
 
 #define MAX_COOPNET_DESCRIPTION_LENGTH 1024
@@ -189,6 +194,15 @@ static void coopnet_populate_description(void) {
     snprintf(buffer, bufferLength, "%s", version);
     buffer += versionLength;
     bufferLength -= versionLength;
+
+    // get star amount
+    const char* stars[8];
+    sprintf(stars, "\n%c x%d", '~' + 1, save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1));
+    int starsLength = strlen(stars);
+    snprinf(buffer, bufferLength, "%s", stars);
+    buffer += starsLength;
+    bufferLength -= starsLength;
+
 
     // get mod strings
     if (gActiveMods.entryCount <= 0) { return; }
