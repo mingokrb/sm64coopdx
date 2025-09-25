@@ -13,6 +13,9 @@
 #include "hardcoded.h"
 #include "macros.h"
 #include "pc/network/network.h"
+#ifdef COOPNET
+#include "pc/network/coopnet/coopnet.h"
+#endif
 #include "pc/lua/utils/smlua_level_utils.h"
 #include "pc/utils/misc.h"
 
@@ -405,7 +408,13 @@ static void save_file_bswap(struct SaveBuffer *buf) {
 void save_file_do_save(s32 fileIndex, s8 forceSave) {
     if (INVALID_FILE_INDEX(fileIndex)) { return; }
     if (gNetworkType != NT_SERVER) {
-        if (gNetworkType == NT_CLIENT) { network_send_save_file(fileIndex); return; }
+        if (gNetworkType == NT_CLIENT) {
+            network_send_save_file(fileIndex);
+#ifdef COOPNET
+            ns_coopnet_populate_description();
+#endif
+            return;
+        }
         else if (gNetworkType == NT_NONE && !forceSave) { return; }
     }
 
@@ -427,6 +436,11 @@ void save_file_do_save(s32 fileIndex, s8 forceSave) {
         gSaveFileModified = FALSE;
     }
     save_main_menu_data();
+#ifdef COOPNET
+    // Update lobby description to reflect new star amount
+    if (ns_coopnet_is_connected())
+        ns_coopnet_populate_description();
+#endif
 }
 
 void save_file_erase(s32 fileIndex) {

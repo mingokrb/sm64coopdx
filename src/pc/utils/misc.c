@@ -14,7 +14,6 @@
 #include "engine/math_util.h"
 #include "pc/configfile.h"
 #include "pc/pc_main.h"
-#include "pc/network/coopnet/coopnet.h"
 
 float smooth_step(float edge0, float edge1, float x) {
     float t = (x - edge0) / (edge1 - edge0);
@@ -28,7 +27,6 @@ void update_all_mario_stars(void) {
     for (s32 i = 0; i < MAX_PLAYERS; i++) {
         gMarioStates[i].numStars = numStars;
     }
-    coopnet_populate_description();
 }
 
 static void _clock_gettime(struct timespec* clock_time) {

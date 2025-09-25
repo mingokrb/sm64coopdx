@@ -185,7 +185,7 @@ bool ns_coopnet_is_connected(void) {
     return coopnet_is_connected();
 }
 
-void coopnet_populate_description(void) {
+static void coopnet_populate_description(void) {
     char* buffer = sCoopNetDescription;
     int bufferLength = MAX_COOPNET_DESCRIPTION_LENGTH;
     // get version
@@ -219,6 +219,10 @@ void coopnet_populate_description(void) {
 
     // concat mod strings
     str_seperator_concat(buffer, bufferLength, strings, gActiveMods.entryCount, "\\#dcdcdc\\\n");
+}
+
+void ns_coopnet_populate_description(void) {
+    coopnet_populate_description();
 }
 
 void ns_coopnet_update(void) {
