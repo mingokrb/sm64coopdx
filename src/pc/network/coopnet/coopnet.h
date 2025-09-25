@@ -13,5 +13,7 @@ bool ns_coopnet_query(QueryCallbackPtr callback, QueryFinishCallbackPtr finishCa
 bool ns_coopnet_is_connected(void);
 void ns_coopnet_update(void);
 
+void coopnet_populate_description(void);
+
 #endif
 #endif

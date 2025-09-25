@@ -185,7 +185,7 @@ bool ns_coopnet_is_connected(void) {
     return coopnet_is_connected();
 }
 
-static void coopnet_populate_description(void) {
+void coopnet_populate_description(void) {
     char* buffer = sCoopNetDescription;
     int bufferLength = MAX_COOPNET_DESCRIPTION_LENGTH;
     // get version
