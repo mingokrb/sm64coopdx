@@ -14,7 +14,5 @@ bool ns_coopnet_is_connected(void);
 void ns_coopnet_populate_description(void);
 void ns_coopnet_update(void);
 
-void coopnet_populate_description(void);
-
 #endif
 #endif
