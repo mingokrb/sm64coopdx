@@ -200,7 +200,7 @@ static void coopnet_populate_description(void) {
     // get total amount of stars
     int stars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
     int starsLength = (floor(log10(abs(stars))) + 1) + 4; // 4 is for the text before the star amount
-    snprintf(buffer, bufferLength, "\n%c x%d", '~' + 1, stars;
+    snprintf(buffer, bufferLength, "\n%c x%d", '~' + 1, stars);
     buffer += starsLength;
     bufferLength -= starsLength;
 
