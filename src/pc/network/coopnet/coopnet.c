@@ -13,7 +13,9 @@
 #include "pc/discord/discord.h"
 #endif
 
-#include <PR/ultratypes.h>
+// for getting stars info
+#include <stdlib.h>
+#include <math.h>
 #include "course_table.h"
 #include "game/area.h"
 #include "game/save_file.h"
@@ -196,8 +198,9 @@ static void coopnet_populate_description(void) {
     bufferLength -= versionLength;
 
     // get total amount of stars
-    int starsLength = 8;
-    snprintf(buffer, bufferLength, "\n%c x%d", '~' + 1, save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1));
+    int stars = save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
+    int starsLength = (floor(log10(abs(stars))) + 1) + 4; // 4 is for the text before the star amount
+    snprintf(buffer, bufferLength, "\n%c x%d", '~' + 1, stars;
     buffer += starsLength;
     bufferLength -= starsLength;
 
@@ -219,7 +222,7 @@ static void coopnet_populate_description(void) {
     str_seperator_concat(buffer, bufferLength, strings, gActiveMods.entryCount, "\\#dcdcdc\\\n");
 }
 
-void ns_coopnet_populate_description(void) {
+void ns_coopnet_repopulate_description(void) {
     coopnet_populate_description();
 }
 
