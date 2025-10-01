@@ -170,6 +170,7 @@ void djui_lua_error_clear(void) {
 void djui_reset_hud_params(void) {
     djui_hud_set_resolution(RESOLUTION_DJUI);
     djui_hud_set_font(FONT_NORMAL);
+    djui_hud_set_alignment(ALIGN_LEFT);
     djui_hud_set_rotation(0, 0, 0);
     djui_hud_reset_color();
     djui_hud_set_filter(FILTER_NEAREST);
