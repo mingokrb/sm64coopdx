@@ -2899,18 +2899,18 @@ Gets the current DJUI HUD alignment
 Sets the current DJUI HUD alignment
 
 ### Lua Example
-`djui_hud_set_alignment(alignment)`
+`djui_hud_set_alignment(alignType)`
 
 ### Parameters
 | Field | Type |
 | ----- | ---- |
-| alignment | [enum DjuiAlignment](constants.md#enum-DjuiAlignment) |
+| alignType | [enum DjuiAlignment](constants.md#enum-DjuiAlignment) |
 
 ### Returns
 - None
 
 ### C Prototype
-`void djui_hud_set_alignment(enum DjuiAlignment alignment);`
+`void djui_hud_set_alignment(enum DjuiAlignment alignType);`
 
 [:arrow_up_small:](#)
 

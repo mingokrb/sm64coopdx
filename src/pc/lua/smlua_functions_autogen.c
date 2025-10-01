@@ -12516,10 +12516,10 @@ int smlua_func_djui_hud_set_alignment(lua_State* L) {
         return 0;
     }
 
-    int alignment = smlua_to_integer(L, 1);
+    int alignType = smlua_to_integer(L, 1);
     if (!gSmLuaConvertSuccess) { LOG_LUA("Failed to convert parameter %u for function '%s'", 1, "djui_hud_set_alignment"); return 0; }
 
-    djui_hud_set_alignment(alignment);
+    djui_hud_set_alignment(alignType);
 
     return 1;
 }

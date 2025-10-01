@@ -76,7 +76,7 @@ void djui_hud_set_font(s8 fontType);
 /* |description|Gets the current DJUI HUD alignment|descriptionEnd| */
 u8 djui_hud_get_alignment(void);
 /* |description|Sets the current DJUI HUD alignment|descriptionEnd| */
-void djui_hud_set_alignment(enum DjuiAlignment alignment);
+void djui_hud_set_alignment(enum DjuiAlignment alignType);
 /* |description|Gets the current DJUI HUD color|descriptionEnd| */
 struct DjuiColor* djui_hud_get_color(void);
 /* |description|Sets the current DJUI HUD color|descriptionEnd| */

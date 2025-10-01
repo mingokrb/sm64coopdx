@@ -3839,9 +3839,9 @@ function djui_hud_get_alignment()
     -- ...
 end
 
---- @param alignment DjuiAlignment
+--- @param alignType DjuiAlignment
 --- Sets the current DJUI HUD alignment
-function djui_hud_set_alignment(alignment)
+function djui_hud_set_alignment(alignType)
     -- ...
 end
 

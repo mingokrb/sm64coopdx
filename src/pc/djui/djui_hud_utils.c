@@ -215,9 +215,9 @@ u8 djui_hud_get_alignment(void) {
     return sAlign;
 }
 
-void djui_hud_set_alignment(enum DjuiAlignment alignment) {
-    if (alignment >= ALIGN_COUNT || alignment < -1 { return; }
-    sAlign = alignment;
+void djui_hud_set_alignment(enum DjuiAlignment alignType) {
+    if (alignType >= ALIGN_COUNT) { return; }
+    sAlign = alignType;
 }
 
 struct DjuiColor* djui_hud_get_color(void) {
@@ -380,6 +380,12 @@ f32 djui_hud_measure_text(const char* message) {
     return width * font->defaultFontScale;
 }
 
+static int get_align_offset(int width) {
+    if (sAlign == ALIGN_LEFT) { return 0; }
+    else if (sAlign == ALIGN_CENTER) { return -(width / 2); }
+    else if (sAlign == ALIGN_RIGHT) { return -width; }
+}
+
 void djui_hud_print_text(const char* message, f32 x, f32 y, f32 scale) {
     if (message == NULL) { return; }
     gDjuiHudUtilsZ += 0.01f;
@@ -394,10 +400,7 @@ void djui_hud_print_text(const char* message, f32 x, f32 y, f32 scale) {
         gSPDisplayList(gDisplayListHead++, font->textBeginDisplayList);
     }
 
-    int alignOffset;
-    if (sAlign == ALIGN_LEFT) { alignOffset = 0; }
-    else if (sAlign == ALIGN_CENTER) { alignOffset = -(djui_hud_measure_text(message) / 2); }
-    else if (sAlign == ALIGN_RIGHT) { alignOffset = -djui_hud_measure_text(message); }
+    int alignOffset = get_align_offset(djui_hud_measure_text(message));
 
     // translate position
     f32 translatedX = x + ((font->xOffset + alignOffset) * scale);
@@ -454,8 +457,10 @@ void djui_hud_print_text_interpolated(const char* message, f32 prevX, f32 prevY,
 
     Gfx* savedHeadPos = gDisplayListHead;
 
+    int alignOffset = get_align_offset(djui_hud_measure_text(message));
+
     // translate position
-    f32 translatedX = x + (font->xOffset * scale);
+    f32 translatedX = x + ((font->xOffset + alignOffset) * scale);
     f32 translatedY = y + (font->yOffset * scale);
     djui_hud_position_translate(&translatedX, &translatedY);
     create_dl_translation_matrix(DJUI_MTX_PUSH, translatedX, translatedY, gDjuiHudUtilsZ);
@@ -520,8 +525,10 @@ void djui_hud_render_texture_raw(const Texture* texture, u32 bitSize, u32 width,
 
     gDjuiHudUtilsZ += 0.01f;
 
+    int alignOffset = get_align_offset(width);
+
     // translate position
-    f32 translatedX = x;
+    f32 translatedX = x + alignOffset;
     f32 translatedY = y;
     djui_hud_position_translate(&translatedX, &translatedY);
     create_dl_translation_matrix(DJUI_MTX_PUSH, translatedX, translatedY, gDjuiHudUtilsZ);
@@ -556,8 +563,10 @@ void djui_hud_render_texture_tile_raw(const Texture* texture, u32 bitSize, u32 w
     if (width != 0) { scaleW *= (f32) tileW / (f32) width; }
     if (height != 0) { scaleH *= (f32) tileH / (f32) height; }
 
+    int alignOffset = get_align_offset(width);
+
     // translate position
-    f32 translatedX = x;
+    f32 translatedX = x + alignOffset;
     f32 translatedY = y;
     djui_hud_position_translate(&translatedX, &translatedY);
     create_dl_translation_matrix(DJUI_MTX_PUSH, translatedX, translatedY, gDjuiHudUtilsZ);
