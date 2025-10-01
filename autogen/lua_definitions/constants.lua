@@ -2754,6 +2754,17 @@ FONT_COUNT       = 7 --- @type DjuiFontType
 --- | `FONT_SPECIAL`
 --- | `FONT_COUNT`
 
+ALIGN_LEFT   = 0 --- @type DjuiAlignment
+ALIGN_CENTER = 1 --- @type DjuiAlignment
+ALIGN_RIGHT  = 2 --- @type DjuiAlignment
+ALIGN_COUNT  = 3 --- @type DjuiAlignment
+
+--- @alias DjuiAlignment
+--- | `ALIGN_LEFT`
+--- | `ALIGN_CENTER`
+--- | `ALIGN_RIGHT`
+--- | `ALIGN_COUNT`
+
 DJUI_RAINBOW_COLOR_RED    = 0 --- @type DjuiRainbowColor
 DJUI_RAINBOW_COLOR_GREEN  = 1 --- @type DjuiRainbowColor
 DJUI_RAINBOW_COLOR_BLUE   = 2 --- @type DjuiRainbowColor

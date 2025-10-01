@@ -19,6 +19,7 @@
     - [enum HudUtilsResolution](#enum-HudUtilsResolution)
     - [enum HudUtilsFilter](#enum-HudUtilsFilter)
     - [enum DjuiFontType](#enum-DjuiFontType)
+    - [enum DjuiAlignment](#enum-DjuiAlignment)
 - [djui_panel_menu.h](#djui_panel_menuh)
     - [enum DjuiRainbowColor](#enum-DjuiRainbowColor)
 - [envfx_snow.h](#envfx_snowh)
@@ -1175,6 +1176,14 @@
 | FONT_RECOLOR_HUD | 5 |
 | FONT_SPECIAL | 6 |
 | FONT_COUNT | 7 |
+
+### [enum DjuiAlignment](#DjuiAlignment)
+| Identifier | Value |
+| :--------- | :---- |
+| ALIGN_LEFT | 0 |
+| ALIGN_CENTER | 1 |
+| ALIGN_RIGHT | 2 |
+| ALIGN_COUNT | 3 |
 
 [:arrow_up_small:](#)
 
