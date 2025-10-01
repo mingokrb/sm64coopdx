@@ -408,13 +408,7 @@ static void save_file_bswap(struct SaveBuffer *buf) {
 void save_file_do_save(s32 fileIndex, s8 forceSave) {
     if (INVALID_FILE_INDEX(fileIndex)) { return; }
     if (gNetworkType != NT_SERVER) {
-        if (gNetworkType == NT_CLIENT) {
-            network_send_save_file(fileIndex);
-#ifdef COOPNET
-            ns_coopnet_populate_description();
-#endif
-            return;
-        }
+        if (gNetworkType == NT_CLIENT) { network_send_save_file(fileIndex); return; }
         else if (gNetworkType == NT_NONE && !forceSave) { return; }
     }
 
@@ -436,11 +430,6 @@ void save_file_do_save(s32 fileIndex, s8 forceSave) {
         gSaveFileModified = FALSE;
     }
     save_main_menu_data();
-#ifdef COOPNET
-    // Update lobby description to reflect new star amount
-    if (ns_coopnet_is_connected())
-        ns_coopnet_populate_description();
-#endif
 }
 
 void save_file_erase(s32 fileIndex) {
@@ -601,6 +590,13 @@ void save_file_collect_star_or_key(s16 coinScore, s16 starIndex, u8 fromNetwork)
             }
             break;
     }
+
+#ifdef COOPNET
+    // Update lobby description to reflect new star amount
+    if (ns_coopnet_is_connected()) {
+        ns_coopnet_repopulate_description();
+    }
+#endif
 }
 
 s32 save_file_exists(s32 fileIndex) {
