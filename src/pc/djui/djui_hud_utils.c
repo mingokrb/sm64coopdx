@@ -211,6 +211,15 @@ void djui_hud_set_font(s8 fontType) {
     sFont = fontType;
 }
 
+u8 djui_hud_get_alignment(void) {
+    return sAlign;
+}
+
+void djui_hud_set_alignment(enum DjuiAlignment alignment) {
+    if (alignment >= ALIGN_COUNT || alignment < -1 { return; }
+    sAlign = alignment;
+}
+
 struct DjuiColor* djui_hud_get_color(void) {
     sRefColor.r = sColor.r;
     sRefColor.g = sColor.g;
