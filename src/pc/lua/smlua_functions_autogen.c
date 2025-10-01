@@ -23217,6 +23217,7 @@ int smlua_func_mod_storage_clear(UNUSED lua_State* L) {
     return 1;
 }
 
+#ifdef __ANDROID__
 int smlua_func_key_cache_init(UNUSED lua_State* L) {
     if (L == NULL) { return 0; }
 
@@ -23231,6 +23232,7 @@ int smlua_func_key_cache_init(UNUSED lua_State* L) {
 
     return 1;
 }
+#endif
 
   //////////////////////
  // network_player.h //
@@ -37940,7 +37942,9 @@ void smlua_bind_functions_autogen(void) {
     smlua_bind_function(L, "mod_storage_exists", smlua_func_mod_storage_exists);
     smlua_bind_function(L, "mod_storage_remove", smlua_func_mod_storage_remove);
     smlua_bind_function(L, "mod_storage_clear", smlua_func_mod_storage_clear);
+#ifdef __ANDROID__
     smlua_bind_function(L, "key_cache_init", smlua_func_key_cache_init);
+#endif
 
     // network_player.h
     smlua_bind_function(L, "network_player_connected_count", smlua_func_network_player_connected_count);
