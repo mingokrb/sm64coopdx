@@ -27,6 +27,7 @@
 static enum HudUtilsResolution sResolution = RESOLUTION_DJUI;
 static enum HudUtilsFilter sFilter = FILTER_NEAREST;
 static enum DjuiFontType sFont = FONT_NORMAL;
+static enum DjuiAlignment sAlign = ALIGN_LEFT;
 static struct HudUtilsRotation sRotation = { 0, 0, 0, 0, 0, 0 };
 static struct DjuiColor sColor = { 255, 255, 255, 255 };
 static struct DjuiColor sRefColor = { 255, 255, 255, 255 };
@@ -384,8 +385,13 @@ void djui_hud_print_text(const char* message, f32 x, f32 y, f32 scale) {
         gSPDisplayList(gDisplayListHead++, font->textBeginDisplayList);
     }
 
+    int alignOffset;
+    if (sAlign == ALIGN_LEFT) { alignOffset = 0; }
+    else if (sAlign == ALIGN_CENTER) { alignOffset = -(djui_hud_measure_text(message) / 2); }
+    else if (sAlign == ALIGN_RIGHT) { alignOffset = -djui_hud_measure_text(message); }
+
     // translate position
-    f32 translatedX = x + (font->xOffset * scale);
+    f32 translatedX = x + ((font->xOffset + alignOffset) * scale);
     f32 translatedY = y + (font->yOffset * scale);
     djui_hud_position_translate(&translatedX, &translatedY);
     create_dl_translation_matrix(DJUI_MTX_PUSH, translatedX, translatedY, gDjuiHudUtilsZ);

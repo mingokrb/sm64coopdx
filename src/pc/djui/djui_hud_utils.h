@@ -24,6 +24,13 @@ enum DjuiFontType {
     FONT_COUNT,
 };
 
+enum DjuiAlignment {
+    ALIGN_LEFT,
+    ALIGN_CENTER,
+    ALIGN_RIGHT,
+    ALIGN_COUNT,
+};
+
 struct HudUtilsRotation {
     f32 rotation;
     f32 rotationDiff;
