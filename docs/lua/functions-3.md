@@ -2872,6 +2872,50 @@ Sets the current DJUI HUD font
 
 <br />
 
+## [djui_hud_get_alignment](#djui_hud_get_alignment)
+
+### Description
+Gets the current DJUI HUD alignment
+
+### Lua Example
+`local integerValue = djui_hud_get_alignment()`
+
+### Parameters
+- None
+
+### Returns
+- `integer`
+
+### C Prototype
+`u8 djui_hud_get_alignment(void);`
+
+[:arrow_up_small:](#)
+
+<br />
+
+## [djui_hud_set_alignment](#djui_hud_set_alignment)
+
+### Description
+Sets the current DJUI HUD alignment
+
+### Lua Example
+`djui_hud_set_alignment(alignment)`
+
+### Parameters
+| Field | Type |
+| ----- | ---- |
+| alignment | [enum DjuiAlignment](constants.md#enum-DjuiAlignment) |
+
+### Returns
+- None
+
+### C Prototype
+`void djui_hud_set_alignment(enum DjuiAlignment alignment);`
+
+[:arrow_up_small:](#)
+
+<br />
+
 ## [djui_hud_get_color](#djui_hud_get_color)
 
 ### Description

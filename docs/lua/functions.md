@@ -758,6 +758,8 @@
    - [djui_hud_set_filter](functions-3.md#djui_hud_set_filter)
    - [djui_hud_get_font](functions-3.md#djui_hud_get_font)
    - [djui_hud_set_font](functions-3.md#djui_hud_set_font)
+   - [djui_hud_get_alignment](functions-3.md#djui_hud_get_alignment)
+   - [djui_hud_set_alignment](functions-3.md#djui_hud_set_alignment)
    - [djui_hud_get_color](functions-3.md#djui_hud_get_color)
    - [djui_hud_set_color](functions-3.md#djui_hud_set_color)
    - [djui_hud_reset_color](functions-3.md#djui_hud_reset_color)
@@ -1396,6 +1398,7 @@
    - [mod_storage_exists](functions-5.md#mod_storage_exists)
    - [mod_storage_remove](functions-5.md#mod_storage_remove)
    - [mod_storage_clear](functions-5.md#mod_storage_clear)
+   - [key_cache_init](functions-5.md#key_cache_init)
 
 <br />
 

@@ -1245,6 +1245,24 @@ Clears the mod's data from mod storage
 
 <br />
 
+## [key_cache_init](#key_cache_init)
+
+### Lua Example
+`key_cache_init()`
+
+### Parameters
+- None
+
+### Returns
+- None
+
+### C Prototype
+`void key_cache_init(void);`
+
+[:arrow_up_small:](#)
+
+<br />
+
 ---
 # functions from network_player.h
 

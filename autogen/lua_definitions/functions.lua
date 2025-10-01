@@ -3833,6 +3833,18 @@ function djui_hud_set_font(fontType)
     -- ...
 end
 
+--- @return integer
+--- Gets the current DJUI HUD alignment
+function djui_hud_get_alignment()
+    -- ...
+end
+
+--- @param alignment DjuiAlignment
+--- Sets the current DJUI HUD alignment
+function djui_hud_set_alignment(alignment)
+    -- ...
+end
+
 --- @return DjuiColor
 --- Gets the current DJUI HUD color
 function djui_hud_get_color()
@@ -7724,6 +7736,10 @@ end
 --- @return boolean
 --- Clears the mod's data from mod storage
 function mod_storage_clear()
+    -- ...
+end
+
+function key_cache_init()
     -- ...
 end
 

@@ -12492,6 +12492,38 @@ int smlua_func_djui_hud_set_font(lua_State* L) {
     return 1;
 }
 
+int smlua_func_djui_hud_get_alignment(UNUSED lua_State* L) {
+    if (L == NULL) { return 0; }
+
+    int top = lua_gettop(L);
+    if (top != 0) {
+        LOG_LUA_LINE("Improper param count for '%s': Expected %u, Received %u", "djui_hud_get_alignment", 0, top);
+        return 0;
+    }
+
+
+    lua_pushinteger(L, djui_hud_get_alignment());
+
+    return 1;
+}
+
+int smlua_func_djui_hud_set_alignment(lua_State* L) {
+    if (L == NULL) { return 0; }
+
+    int top = lua_gettop(L);
+    if (top != 1) {
+        LOG_LUA_LINE("Improper param count for '%s': Expected %u, Received %u", "djui_hud_set_alignment", 1, top);
+        return 0;
+    }
+
+    int alignment = smlua_to_integer(L, 1);
+    if (!gSmLuaConvertSuccess) { LOG_LUA("Failed to convert parameter %u for function '%s'", 1, "djui_hud_set_alignment"); return 0; }
+
+    djui_hud_set_alignment(alignment);
+
+    return 1;
+}
+
 int smlua_func_djui_hud_get_color(UNUSED lua_State* L) {
     if (L == NULL) { return 0; }
 
@@ -23181,6 +23213,21 @@ int smlua_func_mod_storage_clear(UNUSED lua_State* L) {
 
 
     lua_pushboolean(L, mod_storage_clear());
+
+    return 1;
+}
+
+int smlua_func_key_cache_init(UNUSED lua_State* L) {
+    if (L == NULL) { return 0; }
+
+    int top = lua_gettop(L);
+    if (top != 0) {
+        LOG_LUA_LINE("Improper param count for '%s': Expected %u, Received %u", "key_cache_init", 0, top);
+        return 0;
+    }
+
+
+    key_cache_init();
 
     return 1;
 }
@@ -37309,6 +37356,8 @@ void smlua_bind_functions_autogen(void) {
     smlua_bind_function(L, "djui_hud_set_filter", smlua_func_djui_hud_set_filter);
     smlua_bind_function(L, "djui_hud_get_font", smlua_func_djui_hud_get_font);
     smlua_bind_function(L, "djui_hud_set_font", smlua_func_djui_hud_set_font);
+    smlua_bind_function(L, "djui_hud_get_alignment", smlua_func_djui_hud_get_alignment);
+    smlua_bind_function(L, "djui_hud_set_alignment", smlua_func_djui_hud_set_alignment);
     smlua_bind_function(L, "djui_hud_get_color", smlua_func_djui_hud_get_color);
     smlua_bind_function(L, "djui_hud_set_color", smlua_func_djui_hud_set_color);
     smlua_bind_function(L, "djui_hud_reset_color", smlua_func_djui_hud_reset_color);
@@ -37891,6 +37940,7 @@ void smlua_bind_functions_autogen(void) {
     smlua_bind_function(L, "mod_storage_exists", smlua_func_mod_storage_exists);
     smlua_bind_function(L, "mod_storage_remove", smlua_func_mod_storage_remove);
     smlua_bind_function(L, "mod_storage_clear", smlua_func_mod_storage_clear);
+    smlua_bind_function(L, "key_cache_init", smlua_func_key_cache_init);
 
     // network_player.h
     smlua_bind_function(L, "network_player_connected_count", smlua_func_network_player_connected_count);
