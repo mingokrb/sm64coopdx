@@ -35,6 +35,7 @@ in_files = [
     "src/game/first_person_cam.h",
     "src/game/player_palette.h",
     "src/engine/graph_node.h",
+    "src/pc/controller/controller_touchscreen.h",
     "include/PR/gbi.h",
 ]
 
@@ -161,6 +162,7 @@ override_allowed_structs = {
     "src/game/level_update.h": [ "HudDisplay" ],
     "src/game/player_palette.h": [ "PlayerPalette" ],
     "src/game/ingame_menu.h" : [ "DialogEntry" ],
+    "src/pc/controller/controller_touchscreen.h" : [ "ConfigControlElementIndex" ],
     "include/PR/gbi.h": [ "Gfx", "Vtx" ],
 }
 

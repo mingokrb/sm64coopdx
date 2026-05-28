@@ -55,6 +55,7 @@
 #include "src/engine/lighting_engine.h"
 #include "src/pc/network/sync_object.h"
 #include "src/audio/load.h"
+#include "src/pc/controller/controller_touchscreen.h"
 
 
   ///////////////
@@ -12156,6 +12157,10 @@ int smlua_func_update_character_anim_offset(lua_State* L) {
 
     return 1;
 }
+
+  //////////////////////////////
+ // controller_touchscreen.h //
+//////////////////////////////
 
   /////////////////////////
  // djui_chat_message.h //
@@ -37923,6 +37928,8 @@ void smlua_bind_functions_autogen(void) {
     smlua_bind_function(L, "get_character_anim_offset", smlua_func_get_character_anim_offset);
     smlua_bind_function(L, "get_character_anim", smlua_func_get_character_anim);
     smlua_bind_function(L, "update_character_anim_offset", smlua_func_update_character_anim_offset);
+
+    // controller_touchscreen.h
 
     // djui_chat_message.h
     smlua_bind_function(L, "djui_chat_message_create", smlua_func_djui_chat_message_create);

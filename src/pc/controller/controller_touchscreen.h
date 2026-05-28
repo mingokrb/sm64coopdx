@@ -122,5 +122,14 @@ void touch_up(struct TouchEvent* event);
 
 void render_touch_controls(void);
 
+  /////////////
+ // lua api //
+/////////////
+/* |description|Gets the hidden state of a touch control element in `ConfigControlElementIndex`|descriptionEnd| */
+bool touch_control_is_hidden(enum ConfigControlElementIndex i);
+/* |description|Hides a touch control element in `ConfigControlElementIndex`|descriptionEnd| */
+void touch_control_hide(enum ConfigControlElementIndex i);
+/* |description|Shows a touch control element in `ConfigControlElementIndex`|descriptionEnd| */
+void touch_control_show(enum ConfigControlElementIndex i);
 #endif
 #endif

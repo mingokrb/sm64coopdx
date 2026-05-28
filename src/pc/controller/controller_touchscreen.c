@@ -138,7 +138,7 @@ struct Position get_pos(ConfigControlElement *config) {
 
 Colors get_color(ConfigControlElement *config) {
     Colors ret;
-    
+
     ret.r = config->r;
     ret.g = config->g;
     ret.b = config->b;
@@ -452,4 +452,19 @@ struct ControllerAPI controller_touchscreen = {
     NULL,
     NULL
 };
+
+  //////////////
+ // lua api ///
+//////////////
+bool touch_control_is_hidden(enum ConfigControlElementIndex i) {
+   return &configControlElements[i]->hidden;
+}
+
+void touch_control_hide(enum ConfigControlElementIndex i) {
+   &configControlElements[i]->hidden = true;
+}
+
+void touch_control_show(enum ConfigControlElementIndex i) {
+   &configControlElements[i]->hidden = false;
+}
 #endif
