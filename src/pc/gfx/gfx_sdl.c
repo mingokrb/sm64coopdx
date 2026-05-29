@@ -47,6 +47,8 @@
 #include "pc/mods/mod_import.h"
 #include "pc/rom_checker.h"
 
+#include "pc/audio/audio_api.h"
+
 #ifndef GL_MAX_SAMPLES
 #define GL_MAX_SAMPLES 0x8D57
 #endif
@@ -296,6 +298,17 @@ static void gfx_sdl_handle_events(void) {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
+            case SDL_AUDIODEVICEREMOVED:
+                if (event.adevice.which == gAudioApi->device()) {
+                    gAudioApi->close();
+                }
+                break;
+            case SDL_AUDIODEVICEADDED:
+                if (!event.adevice.iscapture) {
+                    gAudioApi->init();
+                }
+                break;
+
             case SDL_TEXTINPUT:
                 kb_text_input(event.text.text);
                 break;

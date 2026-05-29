@@ -28,6 +28,10 @@ static bool audio_sdl_init(void) {
     return true;
 }
 
+static int audio_sdl_device(void) {
+   return (int)dev;
+}
+
 static int audio_sdl_buffered(void) {
     return SDL_GetQueuedAudioSize(dev) / 4;
 }
@@ -43,12 +47,15 @@ static void audio_sdl_play(const uint8_t *buf, size_t len) {
     }
 }
 
-static void audio_sdl_shutdown(void)
-{
+static void audio_sdl_close(void) {
+    SDL_CloseAudioDevice(dev);
+    dev = 0;
+}
+
+static void audio_sdl_shutdown(void) {
     if (SDL_WasInit(SDL_INIT_AUDIO)) {
         if (dev != 0) {
-            SDL_CloseAudioDevice(dev);
-            dev = 0;
+            audio_sdl_close();
         }
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
     }
@@ -56,8 +63,10 @@ static void audio_sdl_shutdown(void)
 
 struct AudioAPI audio_sdl = {
     audio_sdl_init,
+    audio_sdl_device,
     audio_sdl_buffered,
     audio_sdl_get_desired_buffered,
     audio_sdl_play,
+    audio_sdl_close,
     audio_sdl_shutdown
 };
