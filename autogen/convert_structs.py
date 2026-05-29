@@ -35,7 +35,6 @@ in_files = [
     "src/game/first_person_cam.h",
     "src/game/player_palette.h",
     "src/engine/graph_node.h",
-    "src/pc/controller/controller_touchscreen.h",
     "include/PR/gbi.h",
 ]
 

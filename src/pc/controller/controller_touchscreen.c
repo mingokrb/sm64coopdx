@@ -179,11 +179,11 @@ void touch_down(struct TouchEvent* event) {
     struct Position pos;
     s32 size;
     for(u32 i = 0; i < controlElementsLength; i++) {
+        if (configControlElements[i].hidden) { continue; }
         if (controlElements[i].touchID == 0) {
             pos = get_pos(&configControlElements[i]);
-            if (pos.y == HIDE_POS) continue;
-            size = configControlElements[i].size * 100;
-            if (!TRIGGER_DETECT(size)) continue;
+            size = (configControlElements[i].size * 0.1f) * 100;
+            if (!TRIGGER_DETECT(size)) { continue; }
             switch (controlElements[i].type) {
                 case Joystick:
                     controlElements[i].touchID = event->touchID;
@@ -214,9 +214,9 @@ void touch_motion(struct TouchEvent* event) {
     struct Position pos;
     s32 size;
     for(u32 i = 0; i < controlElementsLength; i++) {
+        if (configControlElements[i].hidden) { continue; }
         pos = get_pos(&configControlElements[i]);
-        if (pos.y == HIDE_POS) continue;
-        size = configControlElements[i].size * 100;
+        size = (configControlElements[i].size * 0.1f) * 100;
         if (gInTouchConfig) {
             if (controlElements[i].touchID == event->touchID && controlElements[i].type != Mouse && gSelectedTouchElement == i) {
                 move_touch_element(event, gSelectedTouchElement);
@@ -235,14 +235,15 @@ void touch_motion(struct TouchEvent* event) {
                             }
                             x = CORRECT_TOUCH_X(event->x) - pos.x;
                             y = CORRECT_TOUCH_Y(event->y) - pos.y;
-                            if (pos.x + size / 2 < CORRECT_TOUCH_X(event->x))
-                                x = size / 2;
-                            if (pos.x - size / 2 > CORRECT_TOUCH_X(event->x))
-                                x = - size / 2;
-                            if (pos.y + size / 2 < CORRECT_TOUCH_Y(event->y))
-                                y = size / 2;
-                            if (pos.y - size / 2 > CORRECT_TOUCH_Y(event->y))
-                                y = - size / 2;
+                            s32 dividedSize = size / 2;
+                            if (pos.x + dividedSize < CORRECT_TOUCH_X(event->x))
+                                x = dividedSize;
+                            if (pos.x - dividedSize > CORRECT_TOUCH_X(event->x))
+                                x = -dividedSize;
+                            if (pos.y + dividedSize < CORRECT_TOUCH_Y(event->y))
+                                y = dividedSize;
+                            if (pos.y - dividedSize > CORRECT_TOUCH_Y(event->y))
+                                y = -dividedSize;
                             controlElements[i].joyX = x;
                             controlElements[i].joyY = y;
                             break;
@@ -272,8 +273,9 @@ void touch_motion(struct TouchEvent* event) {
                             break;
                     }
                 } else if ((TRIGGER_DETECT(size) || (configPhantomTouch && TRIGGER_DETECT(size * 6) && controlElements[i].type == Joystick)) && (controlElements[TOUCH_MOUSE].touchID != event->touchID || !configFreeCameraMouse) && configSlideTouch) {
-                    if (configPhantomTouch)
+                    if (configPhantomTouch) {
                         controlElements[i].touchID = event->touchID;
+                    }
                     switch (controlElements[i].type) {
                         case Joystick:
                             break;
@@ -295,9 +297,9 @@ void touch_motion(struct TouchEvent* event) {
 }
 
 static void handle_touch_up(u32 i) { // separated for when the layout changes
+    if (configControlElements[i].hidden) { return; }
     controlElements[i].touchID = 0;
     struct Position pos = get_pos(&configControlElements[i]);
-    if (pos.y == HIDE_POS) { return; }
     switch (controlElements[i].type) {
         case Joystick:
             controlElements[i].joyX = 0;
@@ -362,10 +364,10 @@ void render_touch_controls(void) {
     create_dl_ortho_matrix();
 
     for (u32 i = 0; i < controlElementsLength; i++) {
+        if (configControlElements[i].hidden) { continue; }
         pos = get_pos(&configControlElements[i]);
         color = get_color(&configControlElements[i]);
-        size = configControlElements[i].size;
-        if (pos.y == HIDE_POS) continue;
+        size = configControlElements[i].size * 0.1f;
         switch (controlElements[i].type) {
             case Joystick:
                 if (absi(controlElements[i].joyX) + absi(controlElements[i].joyY) != 0) {
@@ -410,14 +412,14 @@ static void touchscreen_read(OSContPad *pad) {
     s32 size;
     if (!gInTouchConfig && !gDjuiPanelPauseCreated) {
         for(u32 i = 0; i < controlElementsLength; i++) {
+            if (configControlElements[i].hidden) { continue; }
             pos = get_pos(&configControlElements[i]);
-            size = configControlElements[i].size * 100;
-            if (pos.y == HIDE_POS) continue;
+            size = (configControlElements[i].size * 0.1f) * 100;
             switch (controlElements[i].type) {
                 case Joystick:
                     if (controlElements[i].joyX || controlElements[i].joyY) {
-                        pad->stick_x = (controlElements[i].joyX + size / 2) * 255 / size - 128;
-                        pad->stick_y = (-controlElements[i].joyY + size / 2) * 255 / size - 128; //inverted for some reason
+                        pad->stick_x = (controlElements[i].joyX + (size / 2)) * (255 / size) - 128;
+                        pad->stick_y = (-controlElements[i].joyY + (size / 2)) * (255 / size) - 128; //inverted for some reason
                     }
                     break;
                 case Mouse:
@@ -452,19 +454,4 @@ struct ControllerAPI controller_touchscreen = {
     NULL,
     NULL
 };
-
-  //////////////
- // lua api ///
-//////////////
-bool touch_control_is_hidden(enum ConfigControlElementIndex i) {
-   return &configControlElements[i]->hidden;
-}
-
-void touch_control_hide(enum ConfigControlElementIndex i) {
-   &configControlElements[i]->hidden = true;
-}
-
-void touch_control_show(enum ConfigControlElementIndex i) {
-   &configControlElements[i]->hidden = false;
-}
 #endif

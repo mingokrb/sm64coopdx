@@ -29,7 +29,6 @@
 #include "src/game/first_person_cam.h"
 #include "src/game/player_palette.h"
 #include "src/engine/graph_node.h"
-#include "src/pc/controller/controller_touchscreen.h"
 #include "include/PR/gbi.h"
 
 #include "include/object_fields.h"

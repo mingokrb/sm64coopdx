@@ -744,10 +744,6 @@
 
 <br />
 
-- controller_touchscreen.h
-
-<br />
-
 - djui_chat_message.h
    - [djui_chat_message_create](functions-3.md#djui_chat_message_create)
 
@@ -2263,6 +2259,13 @@
    - [sync_object_get_object](functions-7.md#sync_object_get_object)
    - [sync_object_is_initialized](functions-7.md#sync_object_is_initialized)
    - [sync_object_is_owned_locally](functions-7.md#sync_object_is_owned_locally)
+
+<br />
+
+- touch_controls.h
+   - [touch_control_is_hidden](functions-7.md#touch_control_is_hidden)
+   - [touch_control_hide](functions-7.md#touch_control_hide)
+   - [touch_control_show](functions-7.md#touch_control_show)
 
 <br />
 

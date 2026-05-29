@@ -6535,6 +6535,81 @@ Checks if a sync object is owned locally using a `syncId`
 <br />
 
 ---
+# functions from touch_controls.h
+
+<br />
+
+
+## [touch_control_is_hidden](#touch_control_is_hidden)
+
+### Description
+Gets the hidden state of a touch control element in `TouchElement`
+
+### Lua Example
+`local booleanValue = touch_control_is_hidden(element)`
+
+### Parameters
+| Field | Type |
+| ----- | ---- |
+| element | [enum TouchElement](constants.md#enum-TouchElement) |
+
+### Returns
+- `boolean`
+
+### C Prototype
+`bool touch_control_is_hidden(enum TouchElement element);`
+
+[:arrow_up_small:](#)
+
+<br />
+
+## [touch_control_hide](#touch_control_hide)
+
+### Description
+Hides a touch control element in `TouchElement`
+
+### Lua Example
+`touch_control_hide(element)`
+
+### Parameters
+| Field | Type |
+| ----- | ---- |
+| element | [enum TouchElement](constants.md#enum-TouchElement) |
+
+### Returns
+- None
+
+### C Prototype
+`void touch_control_hide(enum TouchElement element);`
+
+[:arrow_up_small:](#)
+
+<br />
+
+## [touch_control_show](#touch_control_show)
+
+### Description
+Shows a touch control element in `TouchElement`
+
+### Lua Example
+`touch_control_show(element)`
+
+### Parameters
+| Field | Type |
+| ----- | ---- |
+| element | [enum TouchElement](constants.md#enum-TouchElement) |
+
+### Returns
+- None
+
+### C Prototype
+`void touch_control_show(enum TouchElement element);`
+
+[:arrow_up_small:](#)
+
+<br />
+
+---
 
 [< prev](functions-6.md) | [1](functions.md) | [2](functions-2.md) | [3](functions-3.md) | [4](functions-4.md) | [5](functions-5.md) | [6](functions-6.md) | 7]
 

@@ -55,7 +55,7 @@
 #include "src/engine/lighting_engine.h"
 #include "src/pc/network/sync_object.h"
 #include "src/audio/load.h"
-#include "src/pc/controller/controller_touchscreen.h"
+#include "src/pc/mobile/touch_controls.h"
 
 
   ///////////////
@@ -12157,10 +12157,6 @@ int smlua_func_update_character_anim_offset(lua_State* L) {
 
     return 1;
 }
-
-  //////////////////////////////
- // controller_touchscreen.h //
-//////////////////////////////
 
   /////////////////////////
  // djui_chat_message.h //
@@ -37218,6 +37214,61 @@ int smlua_func_sync_object_is_owned_locally(lua_State* L) {
     return 1;
 }
 
+  //////////////////////
+ // touch_controls.h //
+//////////////////////
+
+int smlua_func_touch_control_is_hidden(lua_State* L) {
+    if (L == NULL) { return 0; }
+
+    int top = lua_gettop(L);
+    if (top != 1) {
+        LOG_LUA_LINE("Improper param count for '%s': Expected %u, Received %u", "touch_control_is_hidden", 1, top);
+        return 0;
+    }
+
+    int element = smlua_to_integer(L, 1);
+    if (!gSmLuaConvertSuccess) { LOG_LUA("Failed to convert parameter %u for function '%s'", 1, "touch_control_is_hidden"); return 0; }
+
+    lua_pushboolean(L, touch_control_is_hidden(element));
+
+    return 1;
+}
+
+int smlua_func_touch_control_hide(lua_State* L) {
+    if (L == NULL) { return 0; }
+
+    int top = lua_gettop(L);
+    if (top != 1) {
+        LOG_LUA_LINE("Improper param count for '%s': Expected %u, Received %u", "touch_control_hide", 1, top);
+        return 0;
+    }
+
+    int element = smlua_to_integer(L, 1);
+    if (!gSmLuaConvertSuccess) { LOG_LUA("Failed to convert parameter %u for function '%s'", 1, "touch_control_hide"); return 0; }
+
+    touch_control_hide(element);
+
+    return 1;
+}
+
+int smlua_func_touch_control_show(lua_State* L) {
+    if (L == NULL) { return 0; }
+
+    int top = lua_gettop(L);
+    if (top != 1) {
+        LOG_LUA_LINE("Improper param count for '%s': Expected %u, Received %u", "touch_control_show", 1, top);
+        return 0;
+    }
+
+    int element = smlua_to_integer(L, 1);
+    if (!gSmLuaConvertSuccess) { LOG_LUA("Failed to convert parameter %u for function '%s'", 1, "touch_control_show"); return 0; }
+
+    touch_control_show(element);
+
+    return 1;
+}
+
 
 
 void smlua_bind_functions_autogen(void) {
@@ -37928,8 +37979,6 @@ void smlua_bind_functions_autogen(void) {
     smlua_bind_function(L, "get_character_anim_offset", smlua_func_get_character_anim_offset);
     smlua_bind_function(L, "get_character_anim", smlua_func_get_character_anim);
     smlua_bind_function(L, "update_character_anim_offset", smlua_func_update_character_anim_offset);
-
-    // controller_touchscreen.h
 
     // djui_chat_message.h
     smlua_bind_function(L, "djui_chat_message_create", smlua_func_djui_chat_message_create);
@@ -39346,5 +39395,10 @@ void smlua_bind_functions_autogen(void) {
     smlua_bind_function(L, "sync_object_get_object", smlua_func_sync_object_get_object);
     smlua_bind_function(L, "sync_object_is_initialized", smlua_func_sync_object_is_initialized);
     smlua_bind_function(L, "sync_object_is_owned_locally", smlua_func_sync_object_is_owned_locally);
+
+    // touch_controls.h
+    smlua_bind_function(L, "touch_control_is_hidden", smlua_func_touch_control_is_hidden);
+    smlua_bind_function(L, "touch_control_hide", smlua_func_touch_control_hide);
+    smlua_bind_function(L, "touch_control_show", smlua_func_touch_control_show);
 
 }

@@ -93,6 +93,8 @@
 - [sounds.h](#soundsh)
 - [surface_load.h](#surface_loadh)
 - [surface_terrains.h](#surface_terrainsh)
+- [touch_controls.h](#touch_controlsh)
+    - [enum TouchElement](#enum-TouchElement)
 - [types.h](#typesh)
     - [enum SpTaskState](#enum-SpTaskState)
     - [enum AreaTimerType](#enum-AreaTimerType)
@@ -4719,6 +4721,38 @@
 - TERRAIN_WATER
 - TERRAIN_SLIDE
 - TERRAIN_MASK
+
+[:arrow_up_small:](#)
+
+<br />
+
+## [touch_controls.h](#touch_controls.h)
+
+### [enum TouchElement](#TouchElement)
+| Identifier | Value |
+| :--------- | :---- |
+| TOUCH_ELEMENT_STICK | 0 |
+| TOUCH_ELEMENT_MOUSE | 1 |
+| TOUCH_ELEMENT_A | 2 |
+| TOUCH_ELEMENT_B | 3 |
+| TOUCH_ELEMENT_X | 4 |
+| TOUCH_ELEMENT_Y | 5 |
+| TOUCH_ELEMENT_START | 6 |
+| TOUCH_ELEMENT_L | 7 |
+| TOUCH_ELEMENT_R | 8 |
+| TOUCH_ELEMENT_Z | 9 |
+| TOUCH_ELEMENT_CUP | 10 |
+| TOUCH_ELEMENT_CDOWN | 11 |
+| TOUCH_ELEMENT_CLEFT | 12 |
+| TOUCH_ELEMENT_CRIGHT | 13 |
+| TOUCH_ELEMENT_CHAT | 14 |
+| TOUCH_ELEMENT_PLAYERLIST | 15 |
+| TOUCH_ELEMENT_DUP | 16 |
+| TOUCH_ELEMENT_DDOWN | 17 |
+| TOUCH_ELEMENT_DLEFT | 18 |
+| TOUCH_ELEMENT_DRIGHT | 19 |
+| TOUCH_ELEMENT_CONSOLE | 20 |
+| TOUCH_ELEMENT_COUNT | 21 |
 
 [:arrow_up_small:](#)
 

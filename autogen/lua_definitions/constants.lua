@@ -11196,6 +11196,53 @@ TERRAIN_SLIDE = 0x0006
 --- @type integer
 TERRAIN_MASK = 0x0007
 
+TOUCH_ELEMENT_STICK      =  0 --- @type TouchElement
+TOUCH_ELEMENT_MOUSE      =  1 --- @type TouchElement
+TOUCH_ELEMENT_A          =  2 --- @type TouchElement
+TOUCH_ELEMENT_B          =  3 --- @type TouchElement
+TOUCH_ELEMENT_X          =  4 --- @type TouchElement
+TOUCH_ELEMENT_Y          =  5 --- @type TouchElement
+TOUCH_ELEMENT_START      =  6 --- @type TouchElement
+TOUCH_ELEMENT_L          =  7 --- @type TouchElement
+TOUCH_ELEMENT_R          =  8 --- @type TouchElement
+TOUCH_ELEMENT_Z          =  9 --- @type TouchElement
+TOUCH_ELEMENT_CUP        = 10 --- @type TouchElement
+TOUCH_ELEMENT_CDOWN      = 11 --- @type TouchElement
+TOUCH_ELEMENT_CLEFT      = 12 --- @type TouchElement
+TOUCH_ELEMENT_CRIGHT     = 13 --- @type TouchElement
+TOUCH_ELEMENT_CHAT       = 14 --- @type TouchElement
+TOUCH_ELEMENT_PLAYERLIST = 15 --- @type TouchElement
+TOUCH_ELEMENT_DUP        = 16 --- @type TouchElement
+TOUCH_ELEMENT_DDOWN      = 17 --- @type TouchElement
+TOUCH_ELEMENT_DLEFT      = 18 --- @type TouchElement
+TOUCH_ELEMENT_DRIGHT     = 19 --- @type TouchElement
+TOUCH_ELEMENT_CONSOLE    = 20 --- @type TouchElement
+TOUCH_ELEMENT_COUNT      = 21 --- @type TouchElement
+
+--- @alias TouchElement
+--- | `TOUCH_ELEMENT_STICK`
+--- | `TOUCH_ELEMENT_MOUSE`
+--- | `TOUCH_ELEMENT_A`
+--- | `TOUCH_ELEMENT_B`
+--- | `TOUCH_ELEMENT_X`
+--- | `TOUCH_ELEMENT_Y`
+--- | `TOUCH_ELEMENT_START`
+--- | `TOUCH_ELEMENT_L`
+--- | `TOUCH_ELEMENT_R`
+--- | `TOUCH_ELEMENT_Z`
+--- | `TOUCH_ELEMENT_CUP`
+--- | `TOUCH_ELEMENT_CDOWN`
+--- | `TOUCH_ELEMENT_CLEFT`
+--- | `TOUCH_ELEMENT_CRIGHT`
+--- | `TOUCH_ELEMENT_CHAT`
+--- | `TOUCH_ELEMENT_PLAYERLIST`
+--- | `TOUCH_ELEMENT_DUP`
+--- | `TOUCH_ELEMENT_DDOWN`
+--- | `TOUCH_ELEMENT_DLEFT`
+--- | `TOUCH_ELEMENT_DRIGHT`
+--- | `TOUCH_ELEMENT_CONSOLE`
+--- | `TOUCH_ELEMENT_COUNT`
+
 SPTASK_STATE_NOT_STARTED = 0 --- @type SpTaskState
 SPTASK_STATE_RUNNING     = 1 --- @type SpTaskState
 SPTASK_STATE_INTERRUPTED = 2 --- @type SpTaskState

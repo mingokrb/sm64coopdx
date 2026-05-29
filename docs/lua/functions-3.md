@@ -2807,12 +2807,6 @@ Useful for keeping Mario's animations visually aligned, particularly when transi
 <br />
 
 ---
-# functions from controller_touchscreen.h
-
-<br />
-
-
----
 # functions from djui_chat_message.h
 
 <br />

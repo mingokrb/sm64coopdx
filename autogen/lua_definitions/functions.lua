@@ -13071,6 +13071,25 @@ function sync_object_is_owned_locally(syncId)
     -- ...
 end
 
+--- @param element TouchElement
+--- @return boolean
+--- Gets the hidden state of a touch control element in `TouchElement`
+function touch_control_is_hidden(element)
+    -- ...
+end
+
+--- @param element TouchElement
+--- Hides a touch control element in `TouchElement`
+function touch_control_hide(element)
+    -- ...
+end
+
+--- @param element TouchElement
+--- Shows a touch control element in `TouchElement`
+function touch_control_show(element)
+    -- ...
+end
+
 --- @alias Pointer_BehaviorScript BehaviorScript
 --- @alias Pointer_integer integer
 --- @alias Pointer_Vec4s Vec4s
