@@ -10,6 +10,9 @@
 #include "game/save_file.h"
 #include "pc/lua/smlua_hooks.h"
 #include "pc/debuglog.h"
+#ifdef COOPNET
+#include "pc/network/coopnet/coopnet.h"
+#endif
 
 extern s16 gCurrSaveFileNum;
 extern s16 gCurrCourseNum;
@@ -64,6 +67,11 @@ void network_send_collect_star(struct Object* o, s16 coinScore, s16 starIndex) {
     packet_write(&p, &gSaveFileUsingBackupSlot, sizeof(u8));
 
     network_send(&p);
+#ifdef COOPNET
+    if (ns_coopnet_is_connected()) {
+        ns_coopnet_update_description();
+    }
+#endif
 }
 
 void network_receive_collect_star(struct Packet* p) {

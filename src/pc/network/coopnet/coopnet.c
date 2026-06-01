@@ -13,6 +13,11 @@
 #include "pc/discord/discord.h"
 #endif
 
+#include <PR/ultratypes.h>
+#include "course_table.h"
+#include "game/area.h"
+#include "game/save_file.h"
+
 #ifdef COOPNET
 
 #define MAX_COOPNET_DESCRIPTION_LENGTH 1024
@@ -190,6 +195,15 @@ static void coopnet_populate_description(void) {
     buffer += versionLength;
     bufferLength -= versionLength;
 
+    // get star count
+    char stars[5];
+    sprintf(stars, "%d", save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1));
+    char starstr[4 + strlen(stars)];
+    sprintf(starstr, "\n%c x%s", '~' + 1, stars);
+    snprintf(buffer, bufferLength, "%s", starstr);
+    buffer += strlen(starstr);
+    bufferLength -= strlen(starstr);
+
     // get mod strings
     if (gActiveMods.entryCount <= 0) { return; }
     char* strings[gActiveMods.entryCount];
@@ -208,6 +222,24 @@ static void coopnet_populate_description(void) {
     str_seperator_concat(buffer, bufferLength, strings, gActiveMods.entryCount, "\\#dcdcdc\\\n");
 }
 
+void ns_coopnet_update_description(void) {
+    if (!coopnet_is_connected()) { return; }
+
+    coopnet_update();
+    char mode[64] = "";
+    mods_get_main_mod_name(mode, 64);
+
+    LOG_INFO("Update lobby description");
+    djui_popup_create("update coopnet lobby description", 2);
+    coopnet_populate_description();
+#ifdef __ANDROID__
+    const char *game_name = (gCoopNetPassword[0] != '\0') ? "sm64coopdx" : GAME_NAME;
+    coopnet_lobby_update(sLocalLobbyId, game_name, get_version(), configPlayerName, mode, sCoopNetDescription);
+#else
+    coopnet_lobby_update(sLocalLobbyId, GAME_NAME, get_version(), configPlayerName, mode, sCoopNetDescription);
+#endif
+}
+
 void ns_coopnet_update(void) {
     if (!coopnet_is_connected()) { return; }
 
@@ -215,17 +247,23 @@ void ns_coopnet_update(void) {
     if (gNetworkType != NT_NONE && sNetworkType != NT_NONE) {
         if (sNetworkType == NT_SERVER) {
             char mode[64] = "";
+#ifdef __ANDROID__
+            const char *game_name = (gCoopNetPassword[0] != '\0') ? "sm64coopdx" : GAME_NAME;
+#endif
             mods_get_main_mod_name(mode, 64);
             if (sReconnecting) {
                 LOG_INFO("Update lobby");
                 coopnet_populate_description();
+#ifdef __ANDROID__
+                coopnet_lobby_update(sLocalLobbyId, game_name, get_version(), configPlayerName, mode, sCoopNetDescription);
+#else
                 coopnet_lobby_update(sLocalLobbyId, GAME_NAME, get_version(), configPlayerName, mode, sCoopNetDescription);
+#endif
             } else {
                 LOG_INFO("Create lobby");
                 snprintf(gCoopNetPassword, 64, "%s", configPassword);
                 coopnet_populate_description();
 #ifdef __ANDROID__
-                const char *game_name = (gCoopNetPassword[0] != '\0') ? "sm64coopdx" : GAME_NAME;
                 coopnet_lobby_create(game_name, get_version(), configPlayerName, mode, (uint16_t)configAmountOfPlayers, gCoopNetPassword, sCoopNetDescription);
 #else
                 coopnet_lobby_create(GAME_NAME, get_version(), configPlayerName, mode, (uint16_t)configAmountOfPlayers, gCoopNetPassword, sCoopNetDescription);
